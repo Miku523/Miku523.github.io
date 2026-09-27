@@ -48,6 +48,16 @@
     lang   : 'zh-CN'
   };
 </script>
+<script>
+(function(){
+  // 尽早恢复昼夜偏好，避免刷新时闪烁（与 body-end.swig 配合）
+  var saved = localStorage.getItem('next-darkmode');
+  var dark = saved === null
+    ? window.matchMedia('(prefers-color-scheme: dark)').matches
+    : saved === 'true';
+  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+})();
+</script>
 
   <title>标签: hexo | Ascend Log</title>
   
@@ -538,28 +548,38 @@ if (document.querySelectorAll('pre.mermaid').length) {
       });
   </script>
 
-<button id="darkmode-btn" style="position:fixed;bottom:24px;right:24px;z-index:999;width:44px;height:44px;border-radius:50%;border:none;background:#fff;box-shadow:0 2px 8px #0003;cursor:pointer;font-size:20px;">🌓</button>
+<button id="darkmode-btn" aria-label="切换昼夜模式"></button>
 
 <script>
 (function(){
   const btn = document.getElementById('darkmode-btn');
   const html = document.documentElement;
   const storageKey = 'next-darkmode';
-  // 读取本地保存的偏好
-  let dark = localStorage.getItem(storageKey);
-  if(dark === null){
-    dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  }else{
-    dark = dark === 'true';
-  }
-  html.setAttribute('data-theme', dark ? 'dark' : 'light');
 
-  btn.onclick = ()=>{
-    dark = !dark;
+  function apply(dark){
     html.setAttribute('data-theme', dark ? 'dark' : 'light');
-    localStorage.setItem(storageKey, dark);
+    // 图标显示"将切换到的模式"：当前夜间 → 显示太阳（点击切白天）
+    btn.textContent = dark ? '☀️' : '🌙';
+    btn.title = dark ? '切换到白天模式' : '切换到夜间模式';
   }
+
+  // 读取本地保存的偏好，没有则跟随系统
+  let saved = localStorage.getItem(storageKey);
+  let dark;
+  if (saved === null){
+    dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  } else {
+    dark = saved === 'true';
+  }
+  apply(dark);
+
+  btn.addEventListener('click', ()=>{
+    dark = !dark;
+    apply(dark);
+    localStorage.setItem(storageKey, dark);
+  });
 })();
 </script>
+
 </body>
 </html>
