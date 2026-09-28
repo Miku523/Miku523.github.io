@@ -1407,7 +1407,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #ff4a36;
+  background: #88bafa;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2755,15 +2755,50 @@ embed {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+:root {
+  --bg-veil: rgba(255,255,255,0.5);
+}
 body {
-  background: url("/images/bg.png") no-repeat center center fixed;
+  background: linear-gradient(var(--bg-veil), var(--bg-veil)), url("/images/bg.png") no-repeat center center fixed;
   background-size: cover;
+}
+.content-wrap {
+  background: rgba(255,255,255,0.72);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  backdrop-filter: blur(16px) saturate(150%);
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  padding: 24px 36px 30px;
+}
+@media (max-width: 767px) {
+  .content-wrap {
+    border-radius: 0;
+    padding: 20px;
+  }
+}
+.content {
+  padding-top: 36px;
+}
+@media (max-width: 767px) {
+  .content {
+    padding-top: 20px;
+  }
 }
 .header-inner {
   background: rgba(255,255,255,0.8);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  backdrop-filter: blur(12px) saturate(150%);
+}
+.footer-inner {
+  background: rgba(255,255,255,0.55);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
 }
 .comments {
   background: rgba(255,255,255,0.8) !important;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
 }
 html[data-theme='dark'] {
   --body-bg-color: #282828;
@@ -2784,9 +2819,17 @@ html[data-theme='dark'] {
   --btn-default-hover-bg: #666;
   --btn-default-hover-color: #ccc;
   --btn-default-hover-border-color: #666;
+  --bg-veil: rgba(16,18,26,0.6);
 }
 html[data-theme='dark'] .header-inner {
   background: rgba(40,40,40,0.8);
+}
+html[data-theme='dark'] .content-wrap {
+  background: rgba(28,31,40,0.72);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.45);
+}
+html[data-theme='dark'] .footer-inner {
+  background: rgba(40,43,52,0.6);
 }
 html[data-theme='dark'] .comments {
   background: rgba(40,40,40,0.8) !important;
