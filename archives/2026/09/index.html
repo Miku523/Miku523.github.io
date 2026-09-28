@@ -541,8 +541,12 @@ if (document.querySelectorAll('pre.mermaid').length) {
 
 <!-- 动态背景：动态壁纸视频层（人物/头发/衣摆自然流动） -->
 <div class="bg-video" aria-hidden="true">
+  <!-- 属性说明：这些属性用于抑制浏览器/微信QQ内核自带的视频工具条（下载、投屏、画中画等） -->
   <video muted loop playsinline autoplay preload="auto"
-         poster="/images/bg.png" src="/videos/bg-loop.mp4?v=3"></video>
+         poster="/images/bg.png" src="/videos/bg-loop.mp4?v=4"
+         disableRemotePlayback disablePictureInPicture
+         controlsList="nodownload noplaybackrate nofullscreen"
+         webkit-playsinline x5-playsinline x5-video-player-type="h5" x5-video-player-fullscreen="false"></video>
 </div>
 
 <!-- 动态背景：落樱花瓣容器（花瓣随机参数由下面脚本生成） -->
