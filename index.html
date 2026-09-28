@@ -99,6 +99,7 @@
   </style>
 </noscript>
 
+<link rel="alternate" href="/atom.xml" title="Ascend Log" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" data-pagefind-ignore>
@@ -454,9 +455,9 @@
 
   
   <script src="/lib/anime.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/medium-zoom.min.js"></script>
+  <script src="/lib/lozad.min.js"></script>
+  <script src="/lib/pangu.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 
@@ -536,7 +537,7 @@ document.querySelectorAll('.pdfobject-container').forEach(element => {
 
 <script>
 if (document.querySelectorAll('pre.mermaid').length) {
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+  NexT.utils.getScript('/lib/mermaid.min.js', () => {
     mermaid.initialize({
       theme    : 'forest',
       logLevel : 3,

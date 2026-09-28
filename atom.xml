@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <author>
+    <name>君名miku</name>
+  </author>
+  <generator uri="https://hexo.io/">Hexo</generator>
+  <icon>https://miku523.github.io/icon.png</icon>
+  <id>https://miku523.github.io/</id>
+  <link href="https://miku523.github.io/" rel="alternate"/>
+  <link href="https://miku523.github.io/atom.xml" rel="self"/>
+  <rights>All rights reserved 2026, 君名miku</rights>
+  <subtitle>愿此行，终抵群星</subtitle>
+  <title>Ascend Log</title>
+  <updated>2026-09-28T17:08:23.466Z</updated>
+  <entry>
+    <author>
+      <name>君名miku</name>
+    </author>
+    <category term="hexo" scheme="https://miku523.github.io/tags/hexo/"/>
+    <category term="博客" scheme="https://miku523.github.io/tags/%E5%8D%9A%E5%AE%A2/"/>
+    <category term="心路历程" scheme="https://miku523.github.io/tags/%E5%BF%83%E8%B7%AF%E5%8E%86%E7%A8%8B/"/>
+    <content>
+      <![CDATA[<div class="post-banner"><img src="/images/banner-new-journey.jpg" alt="星空下的新旅程——愿此行，终抵群星"></div><p><span style="color:rgb(222, 60, 54)">你好！欢迎来到我的博客。</span></p><p><span style="color:rgb(248, 136, 37)">新程启序，步履不停|“我”的博客开篇</span></p><p>一直以来，我都希望拥有一个属于自己的安静空间，不用迎合外界节奏，不用迁就他人目光，只是单纯记录自己的思考、生活与成长。今天，我的个人博客终于正式搭建完成，这不仅是一次技术尝试的收尾，更是我全新记录生活、沉淀自我的开始。</p><p>从最初对 Hexo 与主题配置一无所知，到一步步调试界面、优化功能、完善布局，这段搭建博客的过程，让我收获了远超技术本身的心得。从前的我习惯被动接收信息，遇到问题习惯性依赖现成答案，很少愿意静下心钻研细节。但这次从零搭建博客，让我真正体会到：所有好看、整洁、流畅的页面背后，都是无数次调试、纠错、取舍与耐心打磨的结果。看似简单的一个页面动画、一个搜索功能、一条访问统计，都需要严谨的逻辑与足够的耐心才能落地。</p><p>成长的本质，或许就是不断突破自己的舒适区。大学是全新的人生阶段，环境、节奏、学习模式都与过去截然不同。身处数据与大数据专业，我每天都在接触全新的知识体系，既有代码的严谨、数据的逻辑，也有思维的迭代与认知的拓宽。我逐渐明白，真正的学习从来不是机械刷题、被动接受，而是主动探索、持续复盘、不断完善自我的过程。人生和搭建博客一样，没有一蹴而就的完美，只有慢慢优化的完整。</p><p>我始终相信，沉淀是无声但最有力量的成长。生活里的点滴思考、学习中的经验总结、遇到难题时的解决思路、迷茫时的自我复盘，都是独属于自己的珍贵财富。过往的很多感悟，都随着时间慢慢消散，而博客的意义，就是为这些细碎的成长留下痕迹。未来我会在这里记录专业学习心得、生活感悟、成长思考，也会分享自己摸索的各类实用技巧，把每一次收获认真留存。</p><p>除此之外，搭建博客的过程也让我学会了取舍。功能不必繁杂，适配自己的节奏就好；页面不必花哨，干净舒适即是最好。人生亦是如此，不必盲目跟风追逐热闹，找到适合自己的步调，稳步前行，就是最好的状态。</p><p>新的篇章已然开启，往后岁岁年年，我愿保持热爱、保持清醒、保持思考。不慌不忙，默默沉淀，持续精进。愿自己始终步履不停，在学习中成长，在沉淀中发光，把普通的日子，过得丰盈且滚烫。</p><p><span style="color:#87CEEB;font-weight:bold;">向你致敬，我的朋友。</span></p>]]>
+    </content>
+    <id>https://miku523.github.io/2026/09/26/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/</id>
+    <link href="https://miku523.github.io/2026/09/26/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/"/>
+    <published>2026-09-26T15:09:37.000Z</published>
+    <summary>
+      <![CDATA[<div class="post-banner"><img src="/images/banner-new-journey.jpg" alt="星空下的新旅程——愿此行，终抵群星"></div>
+<p><span style="color:rgb(222, 60,]]>
+    </summary>
+    <title>我的第一篇博客</title>
+    <updated>2026-09-28T17:08:23.466Z</updated>
+  </entry>
+</feed>
