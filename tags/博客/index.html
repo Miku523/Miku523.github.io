@@ -667,9 +667,15 @@ if (document.querySelectorAll('pre.mermaid').length) {
   var canvas = document.createElement('canvas');
   canvas.className = 'click-sakura';
   canvas.setAttribute('aria-hidden', 'true');
+  // 关键样式内联写死：不依赖 main.css 是否命中缓存——
+  // 浏览器"F5 普通刷新"时子资源可能仍用旧 CSS，导致 canvas 掉进
+  // 普通文档流（花瓣画在屏幕外、canvas 还会挡住点击），内联后免疫此问题
+  canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;'
+    + 'z-index:2147483000;pointer-events:none;';
   document.body.appendChild(canvas);
 
   var ctx = canvas.getContext('2d');
+  if (!ctx) return;
   var DPR = Math.min(window.devicePixelRatio || 1, 2);
   var W = 0, H = 0;
 
