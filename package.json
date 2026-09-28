@@ -1,0 +1,41 @@
+{
+  "name": "hexo-site",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "hexo generate && pagefind --site public --exclude-selectors \".sidebar,.header,.footer,.search-pop-overlay,.bg-ambient,.bg-media,.bg-petals,#darkmode-btn,#search-btn,#search-overlay\"",
+    "clean": "hexo clean",
+    "deploy": "npm run build && hexo deploy",
+    "backup": "_tools\\backup_blog.bat",
+    "server": "hexo server",
+    "preview": "hexo generate && pagefind --site public --exclude-selectors \".sidebar,.header,.footer,.search-pop-overlay,.bg-ambient,.bg-media,.bg-petals,#darkmode-btn,#search-btn,#search-overlay\" && hexo server --static"
+  },
+  "hexo": {
+    "version": "8.1.2"
+  },
+  "dependencies": {
+    "buffer-equal-constant-time": "file:./local_patches/buffer-equal-constant-time",
+    "hexo": "^8.0.0",
+    "hexo-blog-encrypt": "^4.0.3",
+    "hexo-deployer-git": "^4.0.0",
+    "hexo-generator-archive": "^2.0.0",
+    "hexo-generator-category": "^2.0.0",
+    "hexo-generator-feed": "^4.0.0",
+    "hexo-generator-index": "^4.0.0",
+    "hexo-generator-searchdb": "^1.5.0",
+    "hexo-generator-tag": "^2.0.0",
+    "hexo-related-popular-posts": "^5.0.1",
+    "hexo-renderer-ejs": "^2.0.0",
+    "hexo-renderer-marked": "^7.0.0",
+    "hexo-renderer-pug": "^3.0.0",
+    "hexo-renderer-stylus": "^3.0.1",
+    "hexo-server": "^3.0.0",
+    "hexo-symbols-count-time": "^0.7.1",
+    "hexo-theme-landscape": "^1.0.0",
+    "jwa": "^2.0.1",
+    "jws": "^4.0.1"
+  },
+  "devDependencies": {
+    "pagefind": "^1.5.2"
+  }
+}

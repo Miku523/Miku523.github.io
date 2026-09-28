@@ -1,0 +1,7 @@
+{
+  "name": "buffer-equal-constant-time",
+  "version": "1.0.2",
+  "description": "Local patched copy: SlowBuffer was removed in Node.js 26+, fall back to Buffer",
+  "main": "index.js",
+  "license": "MIT"
+}

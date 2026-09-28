@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<!--
+  ============================================
+  Ascend Log · 自定义 404 页面（独立页面，不依赖主题）
+  - 风格与全站一致：樱花瓣 + 毛玻璃 + Miku 葱色 (#39C5BB)
+  - GitHub Pages 自动识别站点根目录的 404.html
+  - skip_render 使 Hexo 原样拷贝，不走主题渲染
+  ============================================
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>404 · 页面被拿去换葱了 | Ascend Log</title>
+<style>
+:root {
+  --miku: #39c5bb;
+  --miku-deep: #1fa39a;
+  --sakura: #ffb7c9;
+  --text: #3a4a52;
+  --text-light: #6b7f88;
+  --glass: rgba(255, 255, 255, .72);
+  --page-bg-a: #eafaf8;
+  --page-bg-b: #fdf2f6;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: #cfe3e6;
+    --text-light: #8fa8ae;
+    --glass: rgba(24, 32, 38, .72);
+    --page-bg-a: #10262a;
+    --page-bg-b: #1d1622;
+  }
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(ellipse at 20% 15%, rgba(57, 197, 187, .18), transparent 55%),
+    radial-gradient(ellipse at 82% 80%, rgba(255, 183, 201, .22), transparent 55%),
+    linear-gradient(160deg, var(--page-bg-a), var(--page-bg-b));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* ---------- 散景光斑（空气感） ---------- */
+.bokeh {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 22% 30%, rgba(255, 226, 238, .5) 0, transparent 40%),
+    radial-gradient(circle at 74% 22%, rgba(190, 245, 240, .45) 0, transparent 38%),
+    radial-gradient(circle at 62% 76%, rgba(255, 214, 232, .4) 0, transparent 40%);
+  animation: bokeh-float 60s ease-in-out infinite alternate;
+}
+@keyframes bokeh-float {
+  0%   { transform: translate3d(-1.5%, 1%, 0) scale(1); }
+  100% { transform: translate3d(1.5%, -1.2%, 0) scale(1.05); }
+}
+
+/* ---------- 落樱花瓣 ---------- */
+.petals {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.petal {
+  position: absolute;
+  top: -8vh;
+  display: block;
+  border-radius: 60% 12% 60% 12%;
+  background: linear-gradient(135deg, rgba(255, 214, 226, .95), rgba(255, 168, 196, .85));
+  box-shadow: 0 0 6px rgba(255, 170, 200, .35);
+  opacity: 0;
+  animation: petal-fall linear infinite;
+  will-change: transform;
+}
+@keyframes petal-fall {
+  0%   { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0; }
+  12%  { opacity: var(--petal-opacity, .85); }
+  85%  { opacity: var(--petal-opacity, .85); }
+  100% { transform: translate3d(var(--drift, 60px), 118vh, 0) rotate(var(--spin, 420deg)); opacity: 0; }
+}
+
+/* ---------- 主体毛玻璃卡片 ---------- */
+.card {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 56px 64px 48px;
+  border-radius: 20px;
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  backdrop-filter: blur(16px) saturate(150%);
+  box-shadow: 0 8px 32px rgba(31, 163, 154, .14), 0 2px 8px rgba(0, 0, 0, .06);
+  max-width: 92vw;
+}
+
+/* 大标题 404：葱色渐变 + 呼吸微光 */
+.big404 {
+  font-size: clamp(88px, 18vw, 160px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: .04em;
+  background: linear-gradient(120deg, var(--miku), #7de3db 45%, var(--sakura));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 4px 18px rgba(57, 197, 187, .35));
+  animation: glow 3.2s ease-in-out infinite alternate;
+}
+@keyframes glow {
+  from { filter: drop-shadow(0 4px 14px rgba(57, 197, 187, .25)); }
+  to   { filter: drop-shadow(0 4px 26px rgba(57, 197, 187, .5)); }
+}
+
+.subtitle {
+  margin-top: 10px;
+  font-size: clamp(18px, 3.4vw, 24px);
+  font-weight: 600;
+  color: var(--miku-deep);
+}
+@media (prefers-color-scheme: dark) {
+  .subtitle { color: var(--miku); }
+}
+
+.desc {
+  margin: 18px auto 6px;
+  max-width: 34em;
+  font-size: 15px;
+  line-height: 1.9;
+  color: var(--text-light);
+}
+
+/* ---------- 按钮 ---------- */
+.actions {
+  margin-top: 30px;
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.btn {
+  display: inline-block;
+  padding: 11px 28px;
+  border-radius: 999px;
+  font-size: 15px;
+  text-decoration: none;
+  transition: transform .2s, box-shadow .2s, background .2s;
+}
+.btn:active { transform: scale(.95); }
+
+.btn-primary {
+  color: #fff;
+  background: linear-gradient(120deg, var(--miku), var(--miku-deep));
+  box-shadow: 0 4px 14px rgba(57, 197, 187, .4);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(57, 197, 187, .55);
+}
+
+.btn-ghost {
+  color: var(--miku-deep);
+  border: 1.5px solid rgba(57, 197, 187, .5);
+  background: rgba(255, 255, 255, .3);
+}
+.btn-ghost:hover {
+  transform: translateY(-2px);
+  background: rgba(57, 197, 187, .1);
+}
+@media (prefers-color-scheme: dark) {
+  .btn-ghost { color: var(--miku); border-color: rgba(57, 197, 187, .45); background: rgba(0, 0, 0, .2); }
+}
+
+/* 页脚小字 */
+.tip {
+  margin-top: 26px;
+  font-size: 12.5px;
+  color: var(--text-light);
+  opacity: .85;
+}
+.tip .leek {
+  display: inline-block;
+  animation: sway 2.4s ease-in-out infinite alternate;
+}
+@keyframes sway {
+  from { transform: rotate(-8deg); }
+  to   { transform: rotate(8deg); }
+}
+
+/* 无障碍：减少动态效果 */
+@media (prefers-reduced-motion: reduce) {
+  .petal, .bokeh, .big404, .leek { animation: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="bokeh"></div>
+<div class="petals" id="petals"></div>
+
+<main class="card">
+  <div class="big404">404</div>
+  <div class="subtitle">这里的页面，被 Miku 拿去换葱了 🥬</div>
+  <p class="desc">
+    你要找的地址不存在，或者已经搬家去了别的舞台。<br>
+    别急，链接偶尔走丢很正常——不如回去听首歌？
+  </p>
+  <div class="actions">
+    <a class="btn btn-primary" href="/">回到首页</a>
+    <a class="btn btn-ghost" href="/archives/">随便逛逛</a>
+  </div>
+  <p class="tip">如果确定是链接坏了，欢迎告诉我 · <span class="leek">🥬</span> 说不定还能 v 我 50 助我修复</p>
+</main>
+
+<script>
+// 生成随机飘落的花瓣（与全站 body-end.swig 的花瓣逻辑同款思路）
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var box = document.getElementById('petals');
+  var count = 16;
+  for (var i = 0; i < count; i++) {
+    var p = document.createElement('i');
+    p.className = 'petal';
+    var size = 8 + Math.random() * 10;           // 8~18px
+    var dur = 9 + Math.random() * 10;            // 9~19s
+    var delay = -Math.random() * dur;            // 负延迟：页面打开时花瓣已铺满画面
+    p.style.width = size + 'px';
+    p.style.height = size * 0.82 + 'px';
+    p.style.left = (Math.random() * 100) + 'vw';
+    p.style.setProperty('--drift', (Math.random() * 140 - 40) + 'px');
+    p.style.setProperty('--spin', (240 + Math.random() * 360) + 'deg');
+    p.style.setProperty('--petal-opacity', (0.5 + Math.random() * 0.4).toFixed(2));
+    p.style.animationDuration = dur + 's';
+    p.style.animationDelay = delay + 's';
+    box.appendChild(p);
+  }
+})();
+</script>
+
+</body>
+</html>
