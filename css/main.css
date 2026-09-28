@@ -1269,7 +1269,7 @@ pre .javascript .function {
 .github-corner svg {
   border: 0;
   color: #fff;
-  fill: #222;
+  fill: #39C5BB;
   position: absolute;
   right: 0;
   top: 0;
@@ -1280,7 +1280,7 @@ pre .javascript .function {
     display: none;
   }
   .github-corner svg {
-    color: #222;
+    color: #39C5BB;
     fill: #fff;
   }
   .github-corner .github-corner:hover .octo-arm {
@@ -1408,7 +1408,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #930395;
+  background: #fff614;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2768,17 +2768,6 @@ ul.breadcrumb li + li:last-child {
   padding: 2px 5px;
   text-shadow: 1px 1px 0 rgba(0,0,0,0.1);
   vertical-align: middle;
-}
-.main-menu .menu-item-active a::after {
-  background: #bbb;
-  border-radius: 50%;
-  content: ' ';
-  height: 6px;
-  margin-top: -3px;
-  position: absolute;
-  right: 15px;
-  top: 50%;
-  width: 6px;
 }
 .sub-menu {
   background: var(--content-bg-color);
