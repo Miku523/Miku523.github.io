@@ -119,6 +119,13 @@ feed:
 encrypt:
   enable: true
 
+# 站点地图（hexo-generator-sitemap）
+sitemap:
+  path: sitemap.xml
+  rel: false
+  tags: true   # 输出文章标签
+  categories: true  # 输出文章分类
+
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/

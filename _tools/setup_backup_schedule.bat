@@ -1,7 +1,8 @@
 @echo off
 REM ============================================================
 REM One-time installer: create Windows scheduled tasks to run
-REM hexo blog auto backup (daily 22:00 + 5 min after each logon).
+REM hexo blog auto backup (daily 22:00 + 5 min after each logon),
+REM and clean up ssh leftover temp files.
 REM Double-click this file ONCE to install. Safe to re-run.
 REM ============================================================
 
@@ -12,6 +13,12 @@ schtasks /Create /F /TN "HexoBlogBackupOnLogon" /TR "D:\hexo_blog\_tools\backup_
 if errorlevel 1 goto :fail
 
 echo.
+echo === Cleaning ssh leftover temp files (known_hosts.*) ===
+del /q "%USERPROFILE%\.ssh\known_hosts.???????????" 2>nul
+del /q "%USERPROFILE%\.ssh\.kh_new" 2>nul
+echo done.
+
+echo.
 echo === Verify ===
 schtasks /Query /TN "HexoBlogAutoBackup" | findstr /I "TaskName Next Run Status"
 schtasks /Query /TN "HexoBlogBackupOnLogon" | findstr /I "TaskName Next Run Status"
@@ -20,6 +27,7 @@ echo SUCCESS: auto backup tasks installed.
 echo - Daily at 22:00 (HexoBlogAutoBackup)
 echo - 5 minutes after each logon (HexoBlogBackupOnLogon)
 echo - Logs at D:\hexo_blog\_tools\backup.log
+echo - Manual run: npm run backup  (in D:\hexo_blog)
 echo.
 pause
 exit /b 0
