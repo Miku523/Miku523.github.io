@@ -564,6 +564,38 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
 </script>
 <button id="darkmode-btn" aria-label="切换昼夜模式"></button>
 
+<!-- 动态背景：落樱花瓣容器（花瓣随机参数由下面脚本生成） -->
+<div class="bg-petals" aria-hidden="true"></div>
+
+<script>
+(function(){
+  // 生成落樱花瓣：位置、大小、下落时长、横向漂移、旋转角都做随机，
+  // 负的 animation-delay 让花瓣一进页面就已经"飘在半空"，不会集体从顶部开始
+  var host = document.querySelector('.bg-petals');
+  if (!host) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var count = window.innerWidth < 768 ? 10 : 22;
+  var frag = document.createDocumentFragment();
+
+  for (var i = 0; i < count; i++){
+    var p = document.createElement('span');
+    var size = 7 + Math.random() * 9;
+    p.className = 'bg-petal';
+    p.style.left = (Math.random() * 100).toFixed(2) + '%';
+    p.style.width = size.toFixed(1) + 'px';
+    p.style.height = (size * 0.82).toFixed(1) + 'px';
+    p.style.animationDuration = (11 + Math.random() * 13).toFixed(1) + 's';
+    p.style.animationDelay = (-Math.random() * 22).toFixed(1) + 's';
+    p.style.setProperty('--petal-opacity', (0.5 + Math.random() * 0.45).toFixed(2));
+    p.style.setProperty('--drift', (Math.random() * 180 - 90).toFixed(0) + 'px');
+    p.style.setProperty('--spin', (Math.random() * 720 - 360).toFixed(0) + 'deg');
+    frag.appendChild(p);
+  }
+  host.appendChild(frag);
+})();
+</script>
+
 <script>
 (function(){
   const btn = document.getElementById('darkmode-btn');
