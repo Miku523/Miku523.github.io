@@ -1407,7 +1407,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #f0ee46;
+  background: #4f3998;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2768,10 +2768,29 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -2;
+  z-index: -3;
   background: url("/images/bg.png") center center/cover no-repeat;
-  will-change: transform;
-  backface-visibility: hidden;
+}
+.bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  overflow: hidden;
+  pointer-events: none;
+}
+.bg-video video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+.bg-video.is-ready video {
+  opacity: 1;
 }
 body::after {
   content: '';
@@ -2783,9 +2802,6 @@ body::after {
   z-index: -1;
   background: var(--bg-veil);
   pointer-events: none;
-}
-body::before {
-  animation: bg-drift 36s ease-in-out infinite alternate;
 }
 .bg-petals {
   position: fixed;
@@ -2810,38 +2826,6 @@ body::before {
   animation-iteration-count: infinite;
   will-change: transform;
   backface-visibility: hidden;
-}
-@-moz-keyframes bg-drift {
-  0% {
-    transform: scale(1.05) translate3d(0, 0, 0);
-  }
-  100% {
-    transform: scale(1.16) translate3d(-1.4%, -1.2%, 0);
-  }
-}
-@-webkit-keyframes bg-drift {
-  0% {
-    transform: scale(1.05) translate3d(0, 0, 0);
-  }
-  100% {
-    transform: scale(1.16) translate3d(-1.4%, -1.2%, 0);
-  }
-}
-@-o-keyframes bg-drift {
-  0% {
-    transform: scale(1.05) translate3d(0, 0, 0);
-  }
-  100% {
-    transform: scale(1.16) translate3d(-1.4%, -1.2%, 0);
-  }
-}
-@keyframes bg-drift {
-  0% {
-    transform: scale(1.05) translate3d(0, 0, 0);
-  }
-  100% {
-    transform: scale(1.16) translate3d(-1.4%, -1.2%, 0);
-  }
 }
 @-moz-keyframes petal-fall {
   0% {
@@ -2908,9 +2892,8 @@ body::before {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  body::before {
-    animation: none !important;
-    transform: scale(1.05);
+  .bg-video {
+    display: none;
   }
   .bg-petal {
     animation: none !important;

@@ -585,8 +585,43 @@ if (document.querySelectorAll('pre.mermaid').length) {
 
 <button id="darkmode-btn" aria-label="切换昼夜模式"></button>
 
+<!-- 动态背景：动态壁纸视频层（人物/头发/衣摆自然流动） -->
+<div class="bg-video" aria-hidden="true">
+  <video muted loop playsinline autoplay preload="auto"
+         poster="/images/bg.png" src="/videos/bg-loop.mp4"></video>
+</div>
+
 <!-- 动态背景：落樱花瓣容器（花瓣随机参数由下面脚本生成） -->
 <div class="bg-petals" aria-hidden="true"></div>
+
+<script>
+(function(){
+  // 动态壁纸：视频就绪后淡入覆盖静态图；
+  // 省流 / 减少动效 / 自动播放被拦时，保留静态 bg.png 兜底
+  var wrap = document.querySelector('.bg-video');
+  if (!wrap) return;
+  var video = wrap.querySelector('video');
+  if (!video) return;
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var conn = navigator.connection || {};
+  var slow = conn.saveData === true || /(^|-)2g/.test(conn.effectiveType || '');
+  if (reduce || slow){
+    video.removeAttribute('autoplay');
+    video.removeAttribute('src');   // 不下载视频，直接停在静态图
+    video.load();
+    return;
+  }
+
+  function reveal(){ wrap.classList.add('is-ready'); }
+  if (video.readyState >= 2){ reveal(); }
+  video.addEventListener('loadeddata', reveal);
+  video.addEventListener('playing', reveal);
+
+  var p = video.play();
+  if (p && p.catch){ p.catch(function(){ /* 自动播放被拦，静态图兜底 */ }); }
+})();
+</script>
 
 <script>
 (function(){
