@@ -22,7 +22,8 @@ touch "$LOCK"
 cd "$BLOG_DIR" || { log "ERROR: cannot enter $BLOG_DIR"; exit 1; }
 
 # 计划任务/无人值守场景: SSH 不允许交互提示, 连不上快速失败
-export GIT_SSH_COMMAND="ssh -o BatchMode=yes -o ConnectTimeout=15"
+# 专用 known_hosts: ~/.ssh/known_hosts 被写保护, 每次推送会留垃圾临时文件
+export GIT_SSH_COMMAND="ssh -o BatchMode=yes -o ConnectTimeout=15 -o UserKnownHostsFile=$BLOG_DIR/_tools/known_hosts_backup"
 
 # 1) 同步主题配置快照(主题目录本身被 .gitignore 排除, 见 themes/)
 mkdir -p _theme_backup

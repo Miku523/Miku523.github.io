@@ -908,10 +908,6 @@ vendors:
   # pjax: //cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js
   pjax:
 
-  # Mermaid（已本地化到站点 source/lib/）
-  # mermaid: //cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js
-  mermaid: /lib/mermaid.min.js
-
   # FancyBox
   # jquery: //cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js
   # fancybox: //cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js
@@ -961,10 +957,10 @@ vendors:
   algolia_search:
   instant_search:
 
-  # Mermaid
+  # Mermaid（已本地化到站点 source/lib/）
   # mermaid: //cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js
   # mermaid: //cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.8/mermaid.min.js
-  mermaid:
+  mermaid: /lib/mermaid.min.js
 
   # Internal version: 1.2.1
   # velocity: //cdn.jsdelivr.net/npm/velocity-animate@1/velocity.min.js
