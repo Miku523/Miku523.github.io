@@ -1407,7 +1407,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #ff261b;
+  background: #bad1ff;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2771,6 +2771,27 @@ body::before {
   z-index: -3;
   background: url("/images/bg.png") center center/cover no-repeat;
 }
+.bg-media {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  overflow: hidden;
+  pointer-events: none;
+}
+.bg-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+.bg-media.is-ready img {
+  opacity: 1;
+}
 body::after {
   content: '';
   position: fixed;
@@ -2986,6 +3007,7 @@ body::after {
 }
 @media (prefers-reduced-motion: reduce) {
   .bg-video,
+  .bg-media,
   .bg-ambient {
     display: none;
   }
