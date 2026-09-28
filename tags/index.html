@@ -562,18 +562,33 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
 </script>
 <button id="darkmode-btn" aria-label="切换昼夜模式"></button>
 
-<!-- 动态背景：动态壁纸视频层（人物/头发/衣摆自然流动） -->
+<!-- 动态背景：纯 CSS 环境光层（柔光带 + 散景光斑，见 styles.styl 的 .bg-ambient） -->
+<div class="bg-ambient" aria-hidden="true"></div>
+
+<!-- ============================================================
+     动态壁纸视频层（当前停用，改用上面的纯 CSS 环境光动效）
+     想恢复"人物会动"的视频版：
+       1. 取消下面这段 div 的注释；
+       2. 把 styles.styl 顶部的 $bg-video 改成 true；
+       3. 把下面第二段 script 的注释也取消；
+       4. hexo clean && hexo generate && hexo deploy
+     注意：视频版在部分浏览器（微信/QQ 内核、国产手机浏览器）会被
+     嗅探并套上自带的"下载/投屏"工具条，这是浏览器行为，站点无法完全屏蔽。
+
 <div class="bg-video" aria-hidden="true">
-  <!-- 属性说明：这些属性用于抑制浏览器/微信QQ内核自带的视频工具条（下载、投屏、画中画等） -->
   <video muted loop playsinline autoplay preload="auto"
          poster="/images/bg.png" src="/videos/bg-loop.mp4?v=4"
          disableRemotePlayback disablePictureInPicture
          controlsList="nodownload noplaybackrate nofullscreen"
          webkit-playsinline x5-playsinline x5-video-player-type="h5" x5-video-player-fullscreen="false"></video>
 </div>
+==================================================================== -->
 
 <!-- 动态背景：落樱花瓣容器（花瓣随机参数由下面脚本生成） -->
 <div class="bg-petals" aria-hidden="true"></div>
+
+<!-- ============================================================
+     视频层控制脚本（随视频层一并停用，恢复视频时取消注释）
 
 <script>
 (function(){
@@ -603,6 +618,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
   if (p && p.catch){ p.catch(function(){ /* 自动播放被拦，静态图兜底 */ }); }
 })();
 </script>
+==================================================================== -->
 
 <script>
 (function(){
