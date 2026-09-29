@@ -911,6 +911,10 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
   function close(){
     overlay.hidden = true;
   }
+  // 保险：页面加载完成时强制关闭，防止旧 CSS 缓存导致 hidden 属性被 display 覆盖
+  overlay.hidden = true;
+  document.body.style.overflow = '';
+
   btn.addEventListener('click', function(e){
     e.stopPropagation();
     if (overlay.hidden){ open(); } else { close(); }
