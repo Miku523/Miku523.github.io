@@ -554,7 +554,8 @@ html[data-theme='dark'] #search-btn {
   box-shadow: 0 2px 8px rgba(0, 0, 0, .5);
 }
 
-// 全屏遮罩
+// 半透明层：只做轻微压暗，不做全屏拦截，点击它就收起面板
+// 右侧抽屉式搜索：不遮挡正文，平时完全收起，需要时滑出
 #search-overlay {
   position: fixed;
   top: 0;
@@ -562,35 +563,45 @@ html[data-theme='dark'] #search-btn {
   width: 100%;
   height: 100%;
   z-index: 1200;
-  background: rgba(15, 18, 26, .45);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
+  background: rgba(15, 18, 26, .18);
+  -webkit-backdrop-filter: blur(1.5px);
+  backdrop-filter: blur(1.5px);
+  // 面板靠右停靠：右内边距留出面板宽度 + 间距
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 10vh 16px 16px;
+  justify-content: flex-end;
+  align-items: stretch;
+  padding: 0;
+  // 整层可穿透，只有面板本身接收鼠标，正文照常滚动/选择
+  pointer-events: none;
 }
 
-// 居中面板：与阅读区一致的毛玻璃质感
+// 关键：hidden 属性必须压过上面的 display:flex，否则 JS 设 hidden 后面板仍显示（关不掉）
+#search-overlay[hidden] {
+  display: none !important;
+}
+
+// 右侧抽屉：占满高度、贴右停靠，像侧边栏一样不挡正文
 .search-panel {
-  width: 640px;
-  max-width: 100%;
-  max-height: 72vh;
+  width: 400px;
+  max-width: 92vw;
+  height: 100%;
+  max-height: none;
   display: flex;
   flex-direction: column;
-  background: rgba(255, 255, 255, .92);
+  background: rgba(255, 255, 255, .94);
   -webkit-backdrop-filter: blur(18px) saturate(150%);
   backdrop-filter: blur(18px) saturate(150%);
-  border-radius: 14px;
-  box-shadow: 0 12px 48px rgba(0, 0, 0, .25);
+  border-radius: 14px 0 0 14px;
+  box-shadow: -8px 0 40px rgba(0, 0, 0, .18);
   overflow: hidden;
-  animation: search-pop .22s ease;
+  pointer-events: auto;
+  animation: search-slide .24s cubic-bezier(.22, .61, .36, 1);
 }
 
-@keyframes search-pop {
+@keyframes search-slide {
   from {
     opacity: 0;
-    transform: translateY(-14px) scale(.98);
+    transform: translateX(24px);
   }
 
   to {
@@ -737,10 +748,16 @@ html[data-theme='dark'] #search-btn {
   }
 }
 
-// 移动端适配
+// 移动端适配：小屏抽屉占满宽度
 +mobile() {
   #search-overlay {
-    padding: 6vh 12px 12px;
+    padding: 0;
+  }
+
+  .search-panel {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 0;
   }
 }
 
@@ -749,12 +766,12 @@ html[data-theme='dark'] #search-btn {
 // ============================================
 html[data-theme='dark'] {
   #search-overlay {
-    background: rgba(0, 0, 0, .55);
+    background: rgba(0, 0, 0, .28);
   }
 
   .search-panel {
-    background: rgba(30, 33, 42, .92);
-    box-shadow: 0 12px 48px rgba(0, 0, 0, .6);
+    background: rgba(30, 33, 42, .94);
+    box-shadow: -8px 0 40px rgba(0, 0, 0, .5);
   }
 
   .search-head {

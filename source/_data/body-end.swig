@@ -362,16 +362,23 @@
   var searchSeq = 0;       // 丢弃过期搜索结果
 
   // ---------- 打开 / 关闭 ----------
+  // 右侧抽屉式：不锁 body 滚动，面板打开时博客照常可滚动浏览
   function open(){
     overlay.hidden = false;
-    document.body.style.overflow = 'hidden';
     setTimeout(function(){ input.focus(); }, 60);
   }
   function close(){
     overlay.hidden = true;
-    document.body.style.overflow = '';
   }
-  btn.addEventListener('click', open);
+  // 保险：页面加载完成时强制关闭，防止旧 CSS 缓存导致 hidden 属性被 display 覆盖
+  overlay.hidden = true;
+  document.body.style.overflow = '';
+
+  btn.addEventListener('click', function(e){
+    e.stopPropagation();
+    if (overlay.hidden){ open(); } else { close(); }
+  });
+  // 点击遮罩空白处（面板以外的区域）收起；面板内点击不冒泡到此
   overlay.addEventListener('click', function(e){
     if (e.target === overlay) close();
   });
