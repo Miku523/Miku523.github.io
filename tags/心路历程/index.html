@@ -328,6 +328,9 @@
       <span class="links-of-author-item">
         <a href="mailto:2026013079@bistu.edu.cn" title="E-Mail → mailto:2026013079@bistu.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
+      <span class="links-of-author-item">
+        <a href="https://wpa.qq.com/msgrd?v=3&uin=235275909&site=qq&menu=yes" title="QQ → https:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;235275909&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener" target="_blank"><i class="fab fa-qq fa-fw"></i>QQ</a>
+      </span>
   </div>
   <div class="cc-license motion-element" itemprop="license">
     <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
@@ -1034,16 +1037,18 @@ if (document.querySelectorAll('pre.mermaid').length) {
 </script>
 
 <!-- ============================================================
-     Live2D 看板娘：博丽灵梦
+     Live2D 看板娘：博丽灵梦 + AI 聊天
      - 模型：/live2d/reimu/（东方 Cannon Ball，Cubism 3，全部自托管）
      - 运行时：/js/vendor/（pixi 6 + Cubism Core + pixi-live2d-display）
      - 脚本：/js/reimu-live2d.js（左侧固定，点击互动，移动端不加载）
-     - defer 保证四个脚本按序执行
+     - 聊天：/js/reimu-chat.js（后端为 Cloudflare Worker，见 cloudflare/README.md）
+     - defer 保证按序执行（聊天面板依赖看板娘先就位）
 ==================================================================== -->
 <script defer src="/js/vendor/live2dcubismcore.min.js"></script>
 <script defer src="/js/vendor/pixi.min.js"></script>
 <script defer src="/js/vendor/pixi-live2d-display-cubism4.min.js"></script>
 <script defer src="/js/reimu-live2d.js"></script>
+<script defer src="/js/reimu-chat.js"></script>
 
 <!-- ============================================================
      和风樱花打字机：站名下方的副标题 + 文章里的 typewriter 卡片
@@ -1056,9 +1061,6 @@ if (document.querySelectorAll('pre.mermaid').length) {
        否则会被当成标签解析、整个页面渲染失败
 ==================================================================== -->
 
-<!-- 和风樱花打字机：配置 + 运行脚本（defer，等 DOM 就绪再动手） -->
-<script>window.__TW_CONFIG__={"enable":true,"timing":{"type_speed":135,"delete_speed":55,"hold_time":2400,"gap_time":460,"start_delay":900,"jitter":45,"pause_on_hover":true,"click_to_skip":true},"subtitle":{"enable":true,"keep_original":true,"lines":["落樱成雪，赴一场春日的约","愿此行，终抵群星","星が降る夜、夢を見る","一切过往，皆为序章","与君初相识，犹如故人归","向着群星，继续前行"]}};</script>
-<script defer src="/js/typewriter.js"></script>
 
 <style id="music-player-style">
 /* ============================================================
@@ -1761,5 +1763,8 @@ html[data-theme='dark'] #music-player .mp-list::-webkit-scrollbar-thumb {
   <audio class="mp-audio" preload="metadata"></audio>
 </div>
 <script defer src="/js/music-player.js"></script>
+<!-- 和风樱花打字机：配置 + 运行脚本（defer，等 DOM 就绪再动手） -->
+<script>window.__TW_CONFIG__={"enable":true,"timing":{"type_speed":135,"delete_speed":55,"hold_time":2400,"gap_time":460,"start_delay":900,"jitter":45,"pause_on_hover":true,"click_to_skip":true},"subtitle":{"enable":true,"keep_original":true,"lines":["落樱成雪，赴一场春日的约","愿此行，终抵群星","星が降る夜、夢を見る","一切过往，皆为序章","与君初相识，犹如故人归","向着群星，继续前行"]},"welcome":{"enable":true,"scope":"home","once_per_session":true,"position":"center","title":"欢迎来到 Ascend Log","footer":"按 ESC 或点右上角 ×，可以提前关掉","delay":850,"type_speed":82,"hold_time":3000,"fade_time":680,"auto_close":true,"closable":true,"mask":true,"random":true,"lines":["欢迎光临，这里是 Miku 的小站","泡杯茶，慢慢看，不着急","落樱成雪，赴一场春日的约","今夜も星が綺麗ですね","愿你在这儿找到想要的东西","愿此行，终抵群星"]}};</script>
+<script defer src="/js/typewriter.js"></script>
 </body>
 </html>

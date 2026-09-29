@@ -125,7 +125,10 @@
       } else {
         // 打完了：光标开始闪，停一会儿再退格
         this.root.classList.remove('is-typing');
-        if (!o.loop) return;   // loop:false 就停在这一句上
+        if (!o.loop) {          // loop:false 就停在这一句上
+          if (o.onFinish) o.onFinish();
+          return;
+        }
         this.schedule(o.hold + line.length * 25, 'delete');
       }
     } else if (this.state === 'delete') {
@@ -250,9 +253,174 @@
     });
   }
 
+  // ---------- 3) 进场欢迎弹层 ----------
+  // 进站后浮出一张卡片，打字机打出一句欢迎语，打完停留一会儿再淡出。
+  // 位置、文案、速度、时长全在 source/_data/typewriter.yml 的 welcome 段落里改。
+  var WELCOME_KEY = 'tw-welcome-shown';
+
+  var PETAL_SVG = '<svg viewBox="0 0 24 24" focusable="false">'
+    + '<g class="tw-petal" fill="currentColor" transform="translate(12 12.6)">'
+    + '<ellipse cx="0" cy="-6.6" rx="2.55" ry="3.95"/>'
+    + '<ellipse cx="0" cy="-6.6" rx="2.55" ry="3.95" transform="rotate(72)"/>'
+    + '<ellipse cx="0" cy="-6.6" rx="2.55" ry="3.95" transform="rotate(144)"/>'
+    + '<ellipse cx="0" cy="-6.6" rx="2.55" ry="3.95" transform="rotate(216)"/>'
+    + '<ellipse cx="0" cy="-6.6" rx="2.55" ry="3.95" transform="rotate(288)"/>'
+    + '</g>'
+    + '<circle class="tw-petal-core" cx="12" cy="12.6" r="1.75"/>'
+    + '</svg>';
+
+  function isHomePage() {
+    var p = window.location.pathname || '/';
+    return p === '/' || /\/index\.html$/.test(p);
+  }
+
+  // 同一次会话里是否已经弹过了
+  function alreadyShown() {
+    try {
+      return sessionStorage.getItem(WELCOME_KEY) === '1';
+    } catch (err) {
+      return false;   // 隐身模式等禁止 sessionStorage 的情况，就当没弹过
+    }
+  }
+
+  function markShown() {
+    try {
+      sessionStorage.setItem(WELCOME_KEY, '1');
+    } catch (err) { /* 存不了就算了，最多下次再弹一次 */ }
+  }
+
+  function setupWelcome() {
+    var w = CFG.welcome || {};
+    if (w.enable === false) return;
+
+    var lines = (w.lines || []).map(function (l) { return String(l).trim(); }).filter(Boolean);
+    if (!lines.length) return;
+
+    if (w.scope === 'home' && !isHomePage()) return;
+    if (w.once_per_session !== false) {
+      if (alreadyShown()) return;
+      markShown();
+    }
+
+    var position = w.position === 'corner' ? 'corner' : 'center';
+    var text = w.random === false ? lines[0] : lines[Math.floor(Math.random() * lines.length)];
+    var closable = w.closable !== false;
+    var fade = num(w.fade_time, 680);
+
+    var root = document.createElement('div');
+    root.className = 'tw-welcome tw-welcome--' + position;
+    root.setAttribute('role', 'dialog');
+    root.setAttribute('aria-label', '欢迎');
+    root.innerHTML =
+      (w.mask !== false && position === 'center' ? '<div class="tw-welcome-mask"></div>' : '')
+      + '<div class="tw-welcome-card">'
+      + '<span class="tw-welcome-petals" aria-hidden="true">'
+      + '<i></i><i></i><i></i><i></i>'
+      + '</span>'
+      + '<div class="tw-welcome-head">'
+      + '<span class="tw-welcome-deco" aria-hidden="true">' + PETAL_SVG + '</span>'
+      + '<span class="tw-welcome-title">' + escapeHtml(w.title || '') + '</span>'
+      + (closable
+          ? '<button type="button" class="tw-welcome-close" aria-label="关闭">×</button>'
+          : '')
+      + '</div>'
+      + '<div class="tw-welcome-body">'
+      + '<span class="tw-line">'
+      + '<span class="tw-text"></span>'
+      + '<span class="tw-caret" aria-hidden="true"></span>'
+      + '</span>'
+      + '</div>'
+      + (w.footer ? '<div class="tw-welcome-foot">' + escapeHtml(w.footer) + '</div>' : '')
+      + '</div>';
+
+    document.body.appendChild(root);
+
+    var box = root.querySelector('.tw-welcome-card');
+    var textEl = root.querySelector('.tw-text');
+    var hideTimer = null;
+    var done = false;
+    var searchObserver = null;
+
+    function onKey(e) {
+      if (e.key === 'Escape' || e.keyCode === 27) dismiss();
+    }
+
+    function dismiss() {
+      if (done) return;
+      done = true;
+      clearTimeout(hideTimer);
+      document.removeEventListener('keydown', onKey);
+      if (searchObserver) searchObserver.disconnect();
+      root.classList.add('is-out');
+      setTimeout(function () {
+        if (root.parentNode) root.parentNode.removeChild(root);
+      }, fade + 100);
+    }
+
+    if (closable) {
+      root.querySelector('.tw-welcome-close').addEventListener('click', dismiss);
+      document.addEventListener('keydown', onKey);
+    }
+
+    // 站内搜索一打开就给搜索面板让路（Ctrl+K / 点搜索按钮），别两层叠在一起
+    var searchBox = document.getElementById('search-overlay');
+    if (searchBox && window.MutationObserver) {
+      searchObserver = new MutationObserver(function () {
+        if (!searchBox.hidden) dismiss();
+      });
+      searchObserver.observe(searchBox, { attributes: true, attributeFilter: ['hidden'] });
+    }
+
+    var hold = num(w.hold_time, 3000);
+    var speed = num(w.type_speed, 82);
+
+    function startTyping(instant) {
+      if (instant) {
+        // 系统开了「减少动态效果」：直接把整句话摆出来，只是不逐字打
+        textEl.textContent = text;
+        box.classList.remove('is-typing');
+        if (w.auto_close !== false) hideTimer = setTimeout(dismiss, hold);
+        return;
+      }
+
+      new Typewriter(box, [text], {
+        type: speed,
+        del: 60,
+        hold: hold,
+        gap: 0,
+        delay: 0,
+        jitter: 30,
+        pauseOnHover: false,
+        clickToSkip: false,
+        loop: false,
+        onFinish: function () {
+          if (w.auto_close === false) return;
+          hideTimer = setTimeout(dismiss, hold);
+        }
+      });
+
+      if (w.auto_close === false) return;
+      // 兜底：万一打字被什么意外卡住（切走标签页、报错中断），也要按时收场
+      setTimeout(function () {
+        if (!done && hideTimer === null) hideTimer = setTimeout(dismiss, hold);
+      }, text.length * speed * 3 + hold + 5000);
+    }
+
+    // 先滑入，再开始打字：两段动画错开会顺眼很多
+    setTimeout(function () {
+      root.classList.add('is-in');
+      if (REDUCE) {
+        startTyping(true);
+      } else {
+        setTimeout(function () { startTyping(false); }, 260);
+      }
+    }, num(w.delay, 850));
+  }
+
   function boot() {
     setupSubtitle();
     setupBlocks();
+    setupWelcome();
   }
 
   if (document.readyState === 'loading') {

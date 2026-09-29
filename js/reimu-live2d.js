@@ -17,21 +17,23 @@
   if (!window.PIXI || !window.PIXI.live2d || !window.PIXI.live2d.Live2DModel) return;
 
   var MODEL_URL = '/live2d/reimu/object_live2d_001_101.asset.model3.json';
-  var CW = 280;                              // 画布宽
+  var CW_MAX = 280;                          // 画布最大宽（模型贴合宽度不会超过它）
   var CH = Math.min(380, Math.round(window.innerHeight * 0.42)); // 画布高
+  var SCALE = 0.93;                          // 整体缩放系数（比之前略小，少挡正文）
 
-  // ---------- 画布：固定左下，透明背景，不挡点击 ----------
+  // ---------- 画布：贴死左边缘，透明背景，不挡点击 ----------
   var canvas = document.createElement('canvas');
   canvas.className = 'reimu-live2d';
   canvas.setAttribute('aria-hidden', 'true');
   // 样式内联写死（同 click-sakura 的做法）：不依赖 main.css 缓存新旧
-  canvas.style.cssText = 'position:fixed;left:10px;bottom:0;width:' + CW + 'px;height:' + CH + 'px;'
+  // 宽度先给最大值，模型加载后按人物实际宽度收紧，让左侧不留空白
+  canvas.style.cssText = 'position:fixed;left:0;bottom:0;width:' + CW_MAX + 'px;height:' + CH + 'px;'
     + 'z-index:1200;pointer-events:none;opacity:0;transition:opacity .8s ease;will-change:transform;';
   document.body.appendChild(canvas);
 
   var app = new PIXI.Application({
     view: canvas,
-    width: CW,
+    width: CW_MAX,
     height: CH,
     backgroundAlpha: 0,
     autoDensity: true,
@@ -50,15 +52,25 @@
       mm.groups.idle = '';
       mm.groups.tap = '';
 
-      // 等比缩放到底部对齐，留 2% 边距防止裁切
-      var scale = Math.min(CW / model.width, CH / model.height) * 0.98;
+      // 等比缩放到底部对齐，再按人物实际宽度收紧画布 → 人物贴住屏幕左边缘
+      var scale = Math.min(CW_MAX / model.width, CH / model.height) * SCALE;
+      var mw = Math.max(60, Math.ceil(model.width * scale));
+      app.renderer.resize(mw, CH);
+      canvas.style.width = mw + 'px';
+
       model.scale.set(scale);
       model.anchor.set(0.5, 1);            // 底边中点为锚点
-      model.position.set(CW / 2, CH + 2);
+      model.position.set(mw / 2, CH + 2);
 
       canvas.style.opacity = '1';          // 就绪后淡入
 
-      // ---------- 点击互动：命中模型本体才触发随机动作 ----------
+      // 对外暴露一点能力：聊天面板通过 window 事件与这里联动
+      window.__REIMU__ = {
+        model: model,
+        playMotion: function () { try { model.motion(''); } catch (err) { /* 无动作时忽略 */ } }
+      };
+
+      // ---------- 点击互动：命中模型本体才触发 ----------
       function hitTest(clientX, clientY) {
         var rect = canvas.getBoundingClientRect();
         var lx = clientX - rect.left, ly = clientY - rect.top;
@@ -70,6 +82,8 @@
       document.addEventListener('click', function (e) {
         if (hitTest(e.clientX, e.clientY)) {
           model.motion('');
+          // 通知聊天面板：被点到了（面板会自己打开；没有面板时只是播个动作）
+          window.dispatchEvent(new CustomEvent('reimu:tap'));
         }
       }, { passive: true });
 

@@ -1337,7 +1337,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #9c9988;
+  background: #ff330f;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -3728,12 +3728,261 @@ html[data-theme='dark'] .tw-block .tw-text {
 html[data-theme='dark'] .tw-hint {
   color: #8d93a1;
 }
+.tw-welcome {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2147482000;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.55s ease;
+}
+.tw-welcome.is-in {
+  opacity: 1;
+}
+.tw-welcome.is-out {
+  opacity: 0;
+}
+.tw-welcome--center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px 11vh;
+}
+.tw-welcome--corner {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 84px 22px 0;
+}
+.tw-welcome-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  background: radial-gradient(62% 46% at 50% 42%, rgba(255,233,242,0.62), rgba(255,233,242,0) 74%), linear-gradient(180deg, rgba(255,246,250,0.34), rgba(255,246,250,0.2));
+}
+.tw-welcome-card {
+  position: relative;
+  pointer-events: auto;
+  width: 88vw;
+  max-width: 430px;
+  padding-bottom: 20px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.85);
+  background: rgba(255,255,255,0.74);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  backdrop-filter: blur(14px) saturate(150%);
+  box-shadow: 0 18px 46px rgba(214,143,176,0.26), 0 2px 10px rgba(0,0,0,0.06);
+  transform: translateY(20px) scale(0.965);
+  transition: transform 0.66s cubic-bezier(0.16, 0.84, 0.28, 1);
+}
+.tw-welcome.is-in .tw-welcome-card {
+  transform: none;
+}
+.tw-welcome--corner .tw-welcome-card {
+  width: 80vw;
+  max-width: 340px;
+  transform: translate(20px, -12px) scale(0.96);
+}
+.tw-welcome-petals {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.tw-welcome-petals i {
+  position: absolute;
+  top: -14px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50% 0 50% 50%;
+  background: linear-gradient(135deg, #ffc9dc, #ff9dbe);
+  opacity: 0;
+  animation: tw-welcome-fall 7.5s linear infinite;
+}
+.tw-welcome-petals i:nth-child(1) {
+  left: 14%;
+  animation-delay: 0.2s;
+  animation-duration: 7.2s;
+}
+.tw-welcome-petals i:nth-child(2) {
+  left: 38%;
+  width: 7px;
+  height: 7px;
+  animation-delay: 2.4s;
+  animation-duration: 8.4s;
+}
+.tw-welcome-petals i:nth-child(3) {
+  left: 63%;
+  animation-delay: 4.1s;
+  animation-duration: 7.8s;
+}
+.tw-welcome-petals i:nth-child(4) {
+  left: 85%;
+  width: 6px;
+  height: 6px;
+  animation-delay: 5.6s;
+  animation-duration: 9s;
+}
+.tw-welcome-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 13px 14px 13px 17px;
+  background: linear-gradient(90deg, rgba(255,168,196,0.38), rgba(57,197,187,0.24));
+  border-bottom: 1px solid rgba(255,255,255,0.68);
+}
+.tw-welcome-deco {
+  flex: none;
+  width: 21px;
+  height: 21px;
+  color: #ff8ab0;
+  filter: drop-shadow(0 1px 5px rgba(255,138,176,0.55));
+}
+.tw-welcome-deco svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.tw-welcome-deco .tw-petal-core {
+  fill: #fffafc;
+}
+.tw-welcome-title {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--tw-font);
+  font-size: 15px;
+  letter-spacing: 0.05em;
+  color: #6d4553;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.6);
+}
+.tw-welcome-close {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  line-height: 1;
+  font-size: 17px;
+  color: #8a6472;
+  cursor: pointer;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.35);
+  transition: background-color 0.22s ease, transform 0.22s ease;
+}
+.tw-welcome-close:hover {
+  background: rgba(255,255,255,0.85);
+  transform: rotate(90deg);
+}
+.tw-welcome-body {
+  position: relative;
+  padding: 19px 26px 2px;
+}
+.tw-welcome .tw-line {
+  display: block;
+  font-size: 1.15em;
+  line-height: 1.85;
+  min-height: 1.9em;
+}
+.tw-welcome .tw-text {
+  color: #46373c;
+  text-shadow: 0 0 14px rgba(255,168,196,0.42);
+}
+.tw-welcome .tw-caret {
+  width: 3px;
+  height: 1.05em;
+}
+.tw-welcome-card.is-typing .tw-caret {
+  animation: none;
+  opacity: 1;
+}
+.tw-welcome-foot {
+  position: relative;
+  margin-top: 6px;
+  padding: 0 26px;
+  font-family: var(--tw-font);
+  font-size: 12px;
+  letter-spacing: 0.03em;
+  color: #a08b93;
+}
+html[data-theme='dark'] .tw-welcome-mask {
+  background: radial-gradient(62% 46% at 50% 42%, rgba(120,72,92,0.5), rgba(120,72,92,0) 74%), linear-gradient(180deg, rgba(28,26,32,0.42), rgba(28,26,32,0.28));
+}
+html[data-theme='dark'] .tw-welcome-card {
+  background: rgba(46,44,54,0.78);
+  border-color: rgba(255,255,255,0.12);
+  box-shadow: 0 18px 46px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,168,196,0.1);
+}
+html[data-theme='dark'] .tw-welcome-head {
+  background: linear-gradient(90deg, rgba(255,168,196,0.3), rgba(57,197,187,0.2));
+  border-bottom-color: rgba(255,255,255,0.1);
+}
+html[data-theme='dark'] .tw-welcome-title {
+  color: #ffdcea;
+  text-shadow: 0 0 12px rgba(255,168,196,0.35);
+}
+html[data-theme='dark'] .tw-welcome-close {
+  color: #e9d3dd;
+  background: rgba(255,255,255,0.08);
+}
+html[data-theme='dark'] .tw-welcome-close:hover {
+  background: rgba(255,255,255,0.2);
+}
+html[data-theme='dark'] .tw-welcome .tw-text {
+  color: #f2e9ee;
+  text-shadow: 0 0 14px rgba(255,168,196,0.32);
+}
+html[data-theme='dark'] .tw-welcome-foot {
+  color: #a89aa3;
+}
+@media (max-width: 767px) {
+  .tw-welcome--center {
+    padding: 0 16px 6vh;
+  }
+  .tw-welcome--corner {
+    padding: 68px 14px 0;
+  }
+  .tw-welcome-card {
+    width: 92vw;
+    max-width: 92vw;
+    border-radius: 14px;
+  }
+  .tw-welcome-body {
+    padding: 17px 18px 2px;
+  }
+  .tw-welcome-foot {
+    padding: 0 18px;
+  }
+  .tw-welcome .tw-line {
+    font-size: 1.06em;
+    min-height: 1.9em;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   .tw-caret {
     animation: none;
   }
   .tw-block.is-swap .tw-deco {
     animation: none;
+  }
+  .tw-welcome-petals i {
+    animation: none;
+    opacity: 0;
+  }
+  .tw-welcome-card,
+  .tw-welcome.is-in .tw-welcome-card {
+    transition: none;
+    transform: none;
   }
 }
 @-moz-keyframes banner-in {
@@ -3890,5 +4139,69 @@ html[data-theme='dark'] .tw-hint {
   }
   100% {
     transform: rotate(0deg) scale(1);
+  }
+}
+@-moz-keyframes tw-welcome-fall {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -6px, 0) rotate(0deg);
+  }
+  12% {
+    opacity: 0.75;
+  }
+  70% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-16px, 260px, 0) rotate(320deg);
+  }
+}
+@-webkit-keyframes tw-welcome-fall {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -6px, 0) rotate(0deg);
+  }
+  12% {
+    opacity: 0.75;
+  }
+  70% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-16px, 260px, 0) rotate(320deg);
+  }
+}
+@-o-keyframes tw-welcome-fall {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -6px, 0) rotate(0deg);
+  }
+  12% {
+    opacity: 0.75;
+  }
+  70% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-16px, 260px, 0) rotate(320deg);
+  }
+}
+@keyframes tw-welcome-fall {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -6px, 0) rotate(0deg);
+  }
+  12% {
+    opacity: 0.75;
+  }
+  70% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-16px, 260px, 0) rotate(320deg);
   }
 }
