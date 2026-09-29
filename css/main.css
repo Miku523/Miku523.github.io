@@ -1337,7 +1337,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #7e95ac;
+  background: #9c9988;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -3592,6 +3592,150 @@ html[data-theme='dark'] .search-foot kbd {
   border-color: rgba(255,255,255,0.15);
   color: #cfd4dd;
 }
+:root {
+  --tw-font: "LXGW WenKai", "Kaiti SC", KaiTi, STKaiti, "楷体", "Songti SC", serif;
+}
+.tw-text {
+  font-family: var(--tw-font);
+}
+.tw-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.02em;
+  margin-left: 4px;
+  vertical-align: -0.14em;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #ffa8c4, #39c5bb);
+  box-shadow: 0 0 6px rgba(255,168,196,0.9), 0 0 2px rgba(57,197,187,0.7);
+  animation: tw-blink 1.15s steps(1, end) infinite;
+}
+.tw.is-typing .tw-caret {
+  animation: none;
+  opacity: 1;
+}
+.tw--subtitle {
+  display: block;
+  min-height: 1.5em;
+}
+.tw--subtitle .tw-text {
+  color: #ffe9f2;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 12px rgba(255,168,196,0.55), 0 0 2px rgba(255,255,255,0.4);
+}
+.tw--subtitle .tw-caret {
+  width: 2px;
+  height: 0.95em;
+  margin-left: 3px;
+}
+.tw-block {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 24px 0;
+  padding: 19px 24px 19px 22px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.72);
+  background: rgba(255,255,255,0.55);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  backdrop-filter: blur(10px) saturate(140%);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  overflow: hidden;
+}
+.tw-block::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 16px;
+  bottom: 16px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: linear-gradient(180deg, #ffa8c4, #39c5bb);
+}
+@media (max-width: 767px) {
+  .tw-block {
+    gap: 12px;
+    padding: 16px 16px 16px 18px;
+    margin: 20px 0;
+  }
+}
+.tw-deco {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  color: #ffa8c4;
+  filter: drop-shadow(0 2px 6px rgba(255,138,176,0.5));
+}
+.tw-deco svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.tw-deco .tw-petal-core {
+  fill: #fff8fb;
+}
+@media (max-width: 767px) {
+  .tw-deco {
+    width: 24px;
+    height: 24px;
+  }
+}
+.tw-block.is-swap .tw-deco {
+  animation: tw-petal-pop 0.62s ease;
+}
+.tw-body {
+  display: block;
+  min-width: 0;
+}
+.tw-line {
+  display: block;
+  font-size: 1.22em;
+  line-height: 1.75;
+  min-height: 1.75em;
+}
+.tw-block .tw-text {
+  color: var(--text-color, #333);
+  text-shadow: 0 0 16px rgba(255,168,196,0.38);
+}
+.tw-block .tw-caret {
+  width: 3px;
+  height: 1.05em;
+}
+.tw-hint {
+  display: block;
+  margin-top: 2px;
+  font-family: var(--tw-font);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: #9aa3b0;
+  opacity: 0.55;
+  transition: opacity 0.3s ease;
+}
+.tw-hint.is-hidden {
+  opacity: 0;
+}
+.tw-block:hover .tw-hint:not(.is-hidden) {
+  opacity: 0.95;
+}
+html[data-theme='dark'] .tw-block {
+  background: rgba(52,55,66,0.5);
+  border-color: rgba(255,255,255,0.1);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.32);
+}
+html[data-theme='dark'] .tw-block .tw-text {
+  text-shadow: 0 0 14px rgba(255,168,196,0.3);
+}
+html[data-theme='dark'] .tw-hint {
+  color: #8d93a1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tw-caret {
+    animation: none;
+  }
+  .tw-block.is-swap .tw-deco {
+    animation: none;
+  }
+}
 @-moz-keyframes banner-in {
   from {
     opacity: 0;
@@ -3670,5 +3814,81 @@ html[data-theme='dark'] .search-foot kbd {
   to {
     opacity: 1;
     transform: none;
+  }
+}
+@-moz-keyframes tw-blink {
+  0%, 52% {
+    opacity: 1;
+  }
+  53%, 100% {
+    opacity: 0.08;
+  }
+}
+@-webkit-keyframes tw-blink {
+  0%, 52% {
+    opacity: 1;
+  }
+  53%, 100% {
+    opacity: 0.08;
+  }
+}
+@-o-keyframes tw-blink {
+  0%, 52% {
+    opacity: 1;
+  }
+  53%, 100% {
+    opacity: 0.08;
+  }
+}
+@keyframes tw-blink {
+  0%, 52% {
+    opacity: 1;
+  }
+  53%, 100% {
+    opacity: 0.08;
+  }
+}
+@-moz-keyframes tw-petal-pop {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  35% {
+    transform: rotate(40deg) scale(1.18);
+  }
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+}
+@-webkit-keyframes tw-petal-pop {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  35% {
+    transform: rotate(40deg) scale(1.18);
+  }
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+}
+@-o-keyframes tw-petal-pop {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  35% {
+    transform: rotate(40deg) scale(1.18);
+  }
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+}
+@keyframes tw-petal-pop {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  35% {
+    transform: rotate(40deg) scale(1.18);
+  }
+  100% {
+    transform: rotate(0deg) scale(1);
   }
 }
