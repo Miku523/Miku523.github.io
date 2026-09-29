@@ -4,7 +4,15 @@ REM One-time installer: create Windows scheduled tasks to run
 REM hexo blog auto backup (daily 22:00 + 5 min after each logon),
 REM and clean up ssh leftover temp files.
 REM Double-click this file ONCE to install. Safe to re-run.
+REM Logon-trigger tasks need admin: auto elevate via UAC.
 REM ============================================================
+
+net session >nul 2>&1
+if errorlevel 1 (
+    echo Requesting administrator rights...
+    powershell -NoProfile -Command "Start-Process -FilePath '%~f0' -Verb RunAs"
+    exit /b
+)
 
 schtasks /Create /F /TN "HexoBlogAutoBackup" /TR "D:\hexo_blog\_tools\backup_blog.bat" /SC DAILY /ST 22:00
 if errorlevel 1 goto :fail
