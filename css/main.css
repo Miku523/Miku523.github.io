@@ -1405,7 +1405,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #f50e4b;
+  background: #03ffcf;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -3280,6 +3280,9 @@ html[data-theme='dark'] #search-btn {
   justify-content: center;
   align-items: flex-start;
   padding: 10vh 16px 16px;
+}
+#search-overlay[hidden] {
+  display: none !important;
 }
 .search-panel {
   width: 640px;
