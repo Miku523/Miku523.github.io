@@ -2,7 +2,25 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://miku523.github.io/2026/09/26/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/</loc>
+    <loc>https://mikuascendlog.com/about/</loc>
+    
+    <lastmod>2026-09-29</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://mikuascendlog.com/links/</loc>
+    
+    <lastmod>2026-09-29</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://mikuascendlog.com/2026/09/26/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/</loc>
     
     <lastmod>2026-09-28</lastmod>
     
@@ -11,7 +29,7 @@
   </url>
   
   <url>
-    <loc>https://miku523.github.io/about/</loc>
+    <loc>https://mikuascendlog.com/images/manifest.json</loc>
     
     <lastmod>2026-09-28</lastmod>
     
@@ -20,16 +38,7 @@
   </url>
   
   <url>
-    <loc>https://miku523.github.io/images/manifest.json</loc>
-    
-    <lastmod>2026-09-28</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://miku523.github.io/categories/</loc>
+    <loc>https://mikuascendlog.com/categories/</loc>
     
     <lastmod>2026-09-27</lastmod>
     
@@ -38,7 +47,7 @@
   </url>
   
   <url>
-    <loc>https://miku523.github.io/tags/</loc>
+    <loc>https://mikuascendlog.com/tags/</loc>
     
     <lastmod>2026-09-27</lastmod>
     
@@ -48,7 +57,7 @@
   
 
   <url>
-    <loc>https://miku523.github.io/</loc>
+    <loc>https://mikuascendlog.com/</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
@@ -56,21 +65,21 @@
 
   
   <url>
-    <loc>https://miku523.github.io/tags/hexo/</loc>
+    <loc>https://mikuascendlog.com/tags/hexo/</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://miku523.github.io/tags/%E5%8D%9A%E5%AE%A2/</loc>
+    <loc>https://mikuascendlog.com/tags/%E5%8D%9A%E5%AE%A2/</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://miku523.github.io/tags/%E5%BF%83%E8%B7%AF%E5%8E%86%E7%A8%8B/</loc>
+    <loc>https://mikuascendlog.com/tags/%E5%BF%83%E8%B7%AF%E5%8E%86%E7%A8%8B/</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
