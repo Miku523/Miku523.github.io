@@ -13,7 +13,7 @@
   <url>
     <loc>https://mikuascendlog.com/2026/09/26/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/</loc>
     
-    <lastmod>2026-09-29</lastmod>
+    <lastmod>2026-09-30</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -425,6 +425,20 @@
 
   
   <url>
+    <loc>https://mikuascendlog.com/tags/%E5%8D%9A%E5%AE%A2/</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://mikuascendlog.com/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://mikuascendlog.com/tags/hexo/</loc>
     <lastmod>2026-09-30</lastmod>
     <changefreq>weekly</changefreq>
@@ -432,7 +446,7 @@
   </url>
   
   <url>
-    <loc>https://mikuascendlog.com/tags/%E5%8D%9A%E5%AE%A2/</loc>
+    <loc>https://mikuascendlog.com/tags/%E5%BC%80%E7%AF%87/</loc>
     <lastmod>2026-09-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -446,5 +460,19 @@
   </url>
   
 
+  
+  <url>
+    <loc>https://mikuascendlog.com/categories/tech/</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://mikuascendlog.com/categories/tech/growth/</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
   
 </urlset>

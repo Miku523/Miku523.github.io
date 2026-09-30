@@ -29,14 +29,14 @@
   <meta name="description" content="我的第一个博客，谱写生活的点滴">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Ascend Log">
-<meta property="og:url" content="https://mikuascendlog.com/archives/">
+<meta property="og:url" content="https://mikuascendlog.com/categories/tech/growth/">
 <meta property="og:site_name" content="Ascend Log">
 <meta property="og:description" content="我的第一个博客，谱写生活的点滴">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="君名miku">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://mikuascendlog.com/archives/">
+<link rel="canonical" href="https://mikuascendlog.com/categories/tech/growth/">
 
 
 <script id="page-configurations">
@@ -59,7 +59,7 @@
 })();
 </script>
 
-  <title>归档 | Ascend Log</title>
+  <title>分类: 成长手记 | Ascend Log</title>
   
 
 
@@ -200,7 +200,7 @@
         <div class="content-wrap">
           
 
-          <div class="content archive">
+          <div class="content category">
             
 
   
@@ -209,7 +209,9 @@
   <div class="post-block">
     <div class="posts-collapse">
       <div class="collection-title">
-        <span class="collection-header">嗯..! 目前共计 1 篇日志。 继续努力。</span>
+        <h2 class="collection-header">成长手记
+          <small>分类</small>
+        </h2>
       </div>
 
       
@@ -236,7 +238,6 @@
 
     </header>
   </article>
-
 
     </div>
   </div>
@@ -524,6 +525,16 @@ if (document.querySelectorAll('pre.mermaid').length) {
   
 
   
+  <script src="/lib/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://mikuascendlog.com/categories/tech/growth/',]
+      });
+      });
+  </script>
 
 <button id="darkmode-btn" aria-label="切换昼夜模式"></button>
 
