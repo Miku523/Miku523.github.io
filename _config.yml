@@ -69,6 +69,10 @@ index_generator:
 # Category & Tag
 default_category: uncategorized
 category_map:
+  # 让分类页内的排列顺序固定下来（不影响文章上的分类名）
+  技术折腾: tech
+  成长手记: growth
+  生活随笔: life
 tag_map:
 
 # Metadata elements
