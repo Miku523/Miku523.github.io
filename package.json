@@ -3,12 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "hexo generate && pagefind --site public --exclude-selectors \".sidebar,.header,.footer,.search-pop-overlay,.bg-ambient,.bg-media,.bg-petals,#darkmode-btn,#search-btn,#search-overlay\"",
+    "build": "hexo generate && pagefind --site public --exclude-selectors \".sidebar,.header,.footer,.search-pop-overlay,.bg-ambient,.bg-media,.bg-petals,.tw-block,#darkmode-btn,#search-btn,#search-overlay\"",
     "clean": "hexo clean",
     "deploy": "npm run build && hexo deploy",
     "backup": "_tools\\backup_blog.bat",
     "server": "hexo server",
-    "preview": "hexo generate && pagefind --site public --exclude-selectors \".sidebar,.header,.footer,.search-pop-overlay,.bg-ambient,.bg-media,.bg-petals,#darkmode-btn,#search-btn,#search-overlay\" && hexo server --static"
+    "preview": "hexo generate && pagefind --site public --exclude-selectors \".sidebar,.header,.footer,.search-pop-overlay,.bg-ambient,.bg-media,.bg-petals,.tw-block,#darkmode-btn,#search-btn,#search-overlay\" && hexo server --static"
   },
   "hexo": {
     "version": "8.1.2"

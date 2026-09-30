@@ -121,6 +121,7 @@ menu:
   tags: /tags/ || fa fa-tags
   categories: /categories/ || fa fa-th
   archives: /archives/ || fa fa-archive
+  links: /links/ || fa fa-link
   #schedule: /schedule/ || fa fa-calendar
   #sitemap: /sitemap.xml || fa fa-sitemap
   commonweal: /404/ || fa fa-heartbeat
@@ -179,6 +180,7 @@ site_state: true
 social:
   GitHub: https://github.com/Miku523 || fab fa-github
   E-Mail: mailto:2026013079@bistu.edu.cn || fa fa-envelope
+  QQ: https://wpa.qq.com/msgrd?v=3&uin=235275909&site=qq&menu=yes || fab fa-qq
   #Weibo: https://weibo.com/yourname || fab fa-weibo
   #Google: https://plus.google.com/yourname || fab fa-google
   #Twitter: https://twitter.com/yourname || fab fa-twitter

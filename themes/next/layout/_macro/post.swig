@@ -216,19 +216,27 @@
 
     {%- if not is_index %}
       {{- next_inject('postBodyEnd') }}
+    {%- endif %}
 
-      {%- if post.reward_settings.enable %}
-        {{ partial('_partials/post/post-reward.swig') }}
-      {%- endif %}
+    {#- 打赏：文章详情页 + 首页文章卡片底部都显示。
+        单篇想关闭时在 front-matter 写 reward_settings: {enable: false}。
+        注意：首页渲染时 front-matter 过滤器只处理当前 page，post 上没有
+        reward_settings，所以要回退到主题配置 #}
+    {%- set rs = post.reward_settings or theme.reward_settings %}
+    {%- if rs and rs.enable %}
+      {{ partial('_partials/post/post-reward.swig') }}
+    {%- endif %}
 
-      {%- if theme.creative_commons.license and theme.creative_commons.post %}
-        {{ partial('_partials/post/post-copyright.swig') }}
-      {%- endif %}
+    {%- if not is_index and theme.creative_commons.license and theme.creative_commons.post %}
+      {{ partial('_partials/post/post-copyright.swig') }}
+    {%- endif %}
 
-      {%- if theme.follow_me %}
-        {{ partial('_partials/post/post-followme.swig', {}, {cache: theme.cache.enable}) }}
-      {%- endif %}
+    {#- 关注渠道：与打赏一致，首页文章卡片底部也显示 #}
+    {%- if theme.follow_me %}
+      {{ partial('_partials/post/post-followme.swig', {}, {cache: theme.cache.enable}) }}
+    {%- endif %}
 
+    {%- if not is_index %}
       <footer class="post-footer">
         {%- if post.tags and post.tags.length %}
           {%- if theme.tag_icon %}

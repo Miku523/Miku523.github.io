@@ -762,6 +762,235 @@ html[data-theme='dark'] #search-btn {
 }
 
 // ============================================
+// 友链页面（/links/）
+// 数据：source/_data/friends.yml   渲染：scripts/friends.js
+// 用 {% friends %} 可以在任意文章里插入同一面卡片墙
+// ============================================
+.friends-page {
+  margin: 18px 0 6px;
+}
+
+.friends-group-title {
+  position: relative;
+  margin: 26px 0 12px;
+  padding-left: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  color: #8a94a6;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 14px;
+    border-radius: 2px;
+    background: linear-gradient(180deg, #ffa8c4, #39c5bb);
+  }
+
+  +mobile() {
+    margin: 20px 0 10px;
+  }
+}
+
+.friends-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 14px;
+
+  // pangu.js（主题的「中英文自动加空格」）会在相邻的两个 <a> 之间插入一个
+  // <pangu> 占位元素，网格会把它当成一个格子，把卡片挤到后面的列去。
+  // 这里把它隐藏掉，卡片就能按顺序紧凑排列。
+  > pangu {
+    display: none;
+  }
+
+  +mobile() {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+
+// 单张卡片：毛玻璃 + 悬浮上浮
+.friend-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 15px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, .72);
+  background: rgba(255, 255, 255, .6);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  backdrop-filter: blur(10px) saturate(140%);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, .06);
+  color: inherit;
+  text-decoration: none !important;
+  overflow: hidden;
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease, background .22s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    border-color: rgba(57, 197, 187, .55);
+    background: rgba(255, 255, 255, .82);
+    box-shadow: 0 10px 24px rgba(57, 130, 140, .16);
+  }
+
+  // 右上角小箭头：平时透明，悬浮浮现
+  &::after {
+    content: '↗';
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    font-size: 12px;
+    color: #39c5bb;
+    opacity: 0;
+    transform: translate(-2px, 2px);
+    transition: opacity .22s ease, transform .22s ease;
+  }
+
+  &:hover::after {
+    opacity: .9;
+    transform: none;
+  }
+
+  +mobile() {
+    padding: 11px 13px;
+  }
+}
+
+// 头像：图片版
+.friend-avatar {
+  flex: none;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: rgba(255, 255, 255, .6);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, .05);
+  transition: transform .25s ease;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.friend-card:hover .friend-avatar {
+  transform: scale(1.06) rotate(-3deg);
+}
+
+// 头像：无图片时用站点名首字生成色块
+.friend-avatar--text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #ffc9dd 0%, #cbd9ff 55%, #b6e9e4 100%);
+
+  i {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, .18);
+  }
+}
+
+.friend-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.friend-name {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--text-color, #333);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.friend-desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-top: 3px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #6b7484;
+}
+
+.friends-empty {
+  padding: 26px 18px;
+  border-radius: 12px;
+  border: 1px dashed rgba(0, 0, 0, .12);
+  text-align: center;
+  font-size: 14px;
+  color: #8a94a6;
+
+  code {
+    padding: 1px 5px;
+    border-radius: 4px;
+    background: rgba(57, 197, 187, .12);
+    color: inherit;
+  }
+}
+
+// 夜间模式适配（卡片、文字、虚线框）
+html[data-theme='dark'] {
+  .friend-card {
+    background: rgba(58, 63, 76, .5);
+    border-color: rgba(255, 255, 255, .08);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .3);
+
+    &:hover {
+      background: rgba(72, 78, 94, .62);
+      border-color: rgba(57, 197, 187, .5);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, .4);
+    }
+  }
+
+  // 夜间主题会把图片整体压暗，头像保持原亮度更好辨认
+  .friend-avatar img {
+    opacity: 1;
+  }
+
+  .friend-avatar {
+    background: rgba(255, 255, 255, .12);
+  }
+
+  .friend-avatar--text i {
+    color: #2b3140;
+    text-shadow: none;
+  }
+
+  .friend-name {
+    color: #e6e9ef;
+  }
+
+  .friend-desc {
+    color: #9aa3b2;
+  }
+
+  .friends-group-title {
+    color: #8a94a6;
+  }
+
+  .friends-empty {
+    border-color: rgba(255, 255, 255, .14);
+    color: #8a94a6;
+  }
+}
+
+// ============================================
 // 搜索面板夜间模式适配
 // ============================================
 html[data-theme='dark'] {
@@ -826,6 +1055,558 @@ html[data-theme='dark'] {
       border-color: rgba(255, 255, 255, .15);
       color: #cfd4dd;
     }
+  }
+}
+
+// ============================================
+// 和风樱花打字机（typewriter）
+// 配置：source/_data/typewriter.yml
+// 脚本：source/js/typewriter.js（body-end.swig 里以 defer 引入）
+// 字体：--tw-font 由 scripts/typewriter.js 的 typewriter_head() 注入
+//
+// 三个场景：
+//   .tw--subtitle  站名下方那行副标题（窄栏、浅色小字，衬在 #222 深色块上）
+//   .tw-block      {% typewriter %} 标签渲染的毛玻璃卡片
+//   .tw-welcome    进场欢迎弹层（DOM 由 JS 现场创建）
+// ============================================
+
+$tw-pink      = #ffa8c4
+$tw-teal      = #39c5bb
+$tw-glow      = rgba(255, 168, 196, .55)
+
+// 兜底字体栈：webfont 没加载出来就退到系统楷体，效果依然成立
+:root {
+  --tw-font: "LXGW WenKai", "Kaiti SC", KaiTi, STKaiti, "楷体", "Songti SC", serif;
+}
+
+.tw-text {
+  font-family: var(--tw-font);
+}
+
+// ---------- 光标：粉→青渐变的小竖条，打字时常亮，停顿时呼吸闪烁 ----------
+.tw-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.02em;
+  margin-left: 4px;
+  vertical-align: -.14em;
+  border-radius: 2px;
+  background: linear-gradient(180deg, $tw-pink, $tw-teal);
+  box-shadow: 0 0 6px rgba(255, 168, 196, .9), 0 0 2px rgba(57, 197, 187, .7);
+  animation: tw-blink 1.15s steps(1, end) infinite;
+}
+
+.tw.is-typing .tw-caret {
+  animation: none;
+  opacity: 1;
+}
+
+@keyframes tw-blink {
+  0%, 52% {
+    opacity: 1;
+  }
+  53%, 100% {
+    opacity: .08;
+  }
+}
+
+// 换一条句子时，左边那朵樱花轻轻一跳
+@keyframes tw-petal-pop {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  35% {
+    transform: rotate(40deg) scale(1.18);
+  }
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+// ---------- 副标题：衬在站名下方的 #222 深色块上 ----------
+.tw--subtitle {
+  display: block;
+  min-height: 1.5em;
+
+  .tw-text {
+    color: #ffe9f2;
+    letter-spacing: .05em;
+    // 深底上给一点樱粉柔光，字会"浮"起来
+    text-shadow: 0 0 12px $tw-glow, 0 0 2px rgba(255, 255, 255, .4);
+  }
+
+  .tw-caret {
+    width: 2px;
+    height: .95em;
+    margin-left: 3px;
+  }
+}
+
+// ---------- {% typewriter %} 卡片 ----------
+.tw-block {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 24px 0;
+  padding: 19px 24px 19px 22px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, .72);
+  background: rgba(255, 255, 255, .55);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  backdrop-filter: blur(10px) saturate(140%);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, .06);
+  overflow: hidden;
+
+  // 左侧渐变小竖条，和友链分组标题同一套语言
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 16px;
+    bottom: 16px;
+    width: 3px;
+    border-radius: 0 3px 3px 0;
+    background: linear-gradient(180deg, $tw-pink, $tw-teal);
+  }
+
+  +mobile() {
+    gap: 12px;
+    padding: 16px 16px 16px 18px;
+    margin: 20px 0;
+  }
+}
+
+// 左边的樱花
+.tw-deco {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  color: $tw-pink;
+  filter: drop-shadow(0 2px 6px rgba(255, 138, 176, .5));
+
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .tw-petal-core {
+    fill: #fff8fb;
+  }
+
+  +mobile() {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.tw-block.is-swap .tw-deco {
+  animation: tw-petal-pop .62s ease;
+}
+
+.tw-body {
+  display: block;
+  min-width: 0;
+}
+
+// 打字区：留一行半高度，句子长短变化时不会把下面的内容顶来顶去
+.tw-line {
+  display: block;
+  font-size: 1.22em;
+  line-height: 1.75;
+  min-height: 1.75em;
+}
+
+.tw-block {
+  .tw-text {
+    color: var(--text-color, #333);
+    // 一层很淡的樱粉柔光，肉眼几乎看不出颜色，但字会"浮"在玻璃上
+    text-shadow: 0 0 16px rgba(255, 168, 196, .38);
+  }
+
+  .tw-caret {
+    width: 3px;
+    height: 1.05em;
+  }
+}
+
+// 「点一下，换一句」：平时淡淡的，鼠标移上去变清楚
+.tw-hint {
+  display: block;
+  margin-top: 2px;
+  font-family: var(--tw-font);
+  font-size: 12px;
+  letter-spacing: .04em;
+  color: #9aa3b0;
+  opacity: .55;
+  transition: opacity .3s ease;
+
+  &.is-hidden {
+    opacity: 0;
+  }
+}
+
+.tw-block:hover .tw-hint:not(.is-hidden) {
+  opacity: .95;
+}
+
+// ---------- 夜间模式：卡片压暗，粉光更明显一点 ----------
+html[data-theme='dark'] {
+  .tw-block {
+    background: rgba(52, 55, 66, .5);
+    border-color: rgba(255, 255, 255, .1);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, .32);
+  }
+
+  .tw-block .tw-text {
+    text-shadow: 0 0 14px rgba(255, 168, 196, .3);
+  }
+
+  .tw-hint {
+    color: #8d93a1;
+  }
+}
+
+// ---------- 进场欢迎弹层（卡片样式） ----------
+// DOM 由 source/js/typewriter.js 的 setupWelcome() 现场创建，
+// 所以它不会被搜索引擎 / 站内搜索收录，也不需要往模板里写任何东西。
+.tw-welcome {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  // 比点击樱花特效（2147483000）低一点，比正文 / 侧栏 / 播放器都高
+  z-index: 2147482000;
+  // 整体不拦操作：翻页、滚动、点菜单都照常，只有卡片本身能点
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .55s ease;
+
+  &.is-in {
+    opacity: 1;
+  }
+
+  &.is-out {
+    opacity: 0;
+  }
+}
+
+.tw-welcome--center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // 稍偏上，别正好压住正文的第一屏视觉中心
+  padding: 0 20px 11vh;
+}
+
+.tw-welcome--corner {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 84px 22px 0;
+}
+
+// 居中的那层淡樱色薄雾：看得见、点不着，不挡滚动和点击
+.tw-welcome-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(62% 46% at 50% 42%, rgba(255, 233, 242, .62), rgba(255, 233, 242, 0) 74%),
+    linear-gradient(180deg, rgba(255, 246, 250, .34), rgba(255, 246, 250, .2));
+}
+
+// 注意：这里别写 CSS 的 min()/max()，Stylus 会当成自己的函数算掉
+// （min(88vw, 460px) 会被编译成 88vw），宽+上限分开写
+.tw-welcome-card {
+  position: relative;
+  pointer-events: auto;
+  width: 88vw;
+  max-width: 430px;
+  padding-bottom: 20px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, .85);
+  background: rgba(255, 255, 255, .74);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  backdrop-filter: blur(14px) saturate(150%);
+  // 一圈樱粉外发光，让卡片从背景里"浮"起来
+  box-shadow: 0 18px 46px rgba(214, 143, 176, .26), 0 2px 10px rgba(0, 0, 0, .06);
+  transform: translateY(20px) scale(.965);
+  transition: transform .66s cubic-bezier(.16, .84, .28, 1);
+}
+
+.tw-welcome.is-in .tw-welcome-card {
+  transform: none;
+}
+
+.tw-welcome--corner .tw-welcome-card {
+  width: 80vw;
+  max-width: 340px;
+  transform: translate(20px, -12px) scale(.96);
+}
+
+// 卡片里飘的几片樱花（纯装饰）
+.tw-welcome-petals {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  pointer-events: none;
+
+  i {
+    position: absolute;
+    top: -14px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50% 0 50% 50%;
+    background: linear-gradient(135deg, #ffc9dc, #ff9dbe);
+    opacity: 0;
+    animation: tw-welcome-fall 7.5s linear infinite;
+
+    &:nth-child(1) {
+      left: 14%;
+      animation-delay: .2s;
+      animation-duration: 7.2s;
+    }
+
+    &:nth-child(2) {
+      left: 38%;
+      width: 7px;
+      height: 7px;
+      animation-delay: 2.4s;
+      animation-duration: 8.4s;
+    }
+
+    &:nth-child(3) {
+      left: 63%;
+      animation-delay: 4.1s;
+      animation-duration: 7.8s;
+    }
+
+    &:nth-child(4) {
+      left: 85%;
+      width: 6px;
+      height: 6px;
+      animation-delay: 5.6s;
+      animation-duration: 9s;
+    }
+  }
+}
+
+@keyframes tw-welcome-fall {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -6px, 0) rotate(0deg);
+  }
+  12% {
+    opacity: .75;
+  }
+  70% {
+    opacity: .55;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-16px, 260px, 0) rotate(320deg);
+  }
+}
+
+.tw-welcome-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 13px 14px 13px 17px;
+  background: linear-gradient(90deg, rgba(255, 168, 196, .38), rgba(57, 197, 187, .24));
+  border-bottom: 1px solid rgba(255, 255, 255, .68);
+}
+
+.tw-welcome-deco {
+  flex: none;
+  width: 21px;
+  height: 21px;
+  color: #ff8ab0;
+  filter: drop-shadow(0 1px 5px rgba(255, 138, 176, .55));
+
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .tw-petal-core {
+    fill: #fffafc;
+  }
+}
+
+.tw-welcome-title {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--tw-font);
+  font-size: 15px;
+  letter-spacing: .05em;
+  color: #6d4553;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .6);
+}
+
+.tw-welcome-close {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  line-height: 1;
+  font-size: 17px;
+  color: #8a6472;
+  cursor: pointer;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .35);
+  transition: background-color .22s ease, transform .22s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, .85);
+    transform: rotate(90deg);
+  }
+}
+
+.tw-welcome-body {
+  position: relative;
+  padding: 19px 26px 2px;
+}
+
+// 留一行半的高度：写得长的欢迎语换行时不会把卡片顶来顶去
+.tw-welcome .tw-line {
+  display: block;
+  font-size: 1.15em;
+  line-height: 1.85;
+  min-height: 1.9em;
+}
+
+.tw-welcome .tw-text {
+  color: #46373c;
+  text-shadow: 0 0 14px rgba(255, 168, 196, .42);
+}
+
+.tw-welcome .tw-caret {
+  width: 3px;
+  height: 1.05em;
+}
+
+// 打字过程中光标常亮（配合 JS 给卡片加的 is-typing）
+.tw-welcome-card.is-typing .tw-caret {
+  animation: none;
+  opacity: 1;
+}
+
+.tw-welcome-foot {
+  position: relative;
+  margin-top: 6px;
+  padding: 0 26px;
+  font-family: var(--tw-font);
+  font-size: 12px;
+  letter-spacing: .03em;
+  color: #a08b93;
+}
+
+// 夜间模式：卡片压暗，粉光更明显
+html[data-theme='dark'] {
+  .tw-welcome-mask {
+    background:
+      radial-gradient(62% 46% at 50% 42%, rgba(120, 72, 92, .5), rgba(120, 72, 92, 0) 74%),
+      linear-gradient(180deg, rgba(28, 26, 32, .42), rgba(28, 26, 32, .28));
+  }
+
+  .tw-welcome-card {
+    background: rgba(46, 44, 54, .78);
+    border-color: rgba(255, 255, 255, .12);
+    box-shadow: 0 18px 46px rgba(0, 0, 0, .45), 0 0 0 1px rgba(255, 168, 196, .1);
+  }
+
+  .tw-welcome-head {
+    background: linear-gradient(90deg, rgba(255, 168, 196, .3), rgba(57, 197, 187, .2));
+    border-bottom-color: rgba(255, 255, 255, .1);
+  }
+
+  .tw-welcome-title {
+    color: #ffdcea;
+    text-shadow: 0 0 12px rgba(255, 168, 196, .35);
+  }
+
+  .tw-welcome-close {
+    color: #e9d3dd;
+    background: rgba(255, 255, 255, .08);
+
+    &:hover {
+      background: rgba(255, 255, 255, .2);
+    }
+  }
+
+  .tw-welcome .tw-text {
+    color: #f2e9ee;
+    text-shadow: 0 0 14px rgba(255, 168, 196, .32);
+  }
+
+  .tw-welcome-foot {
+    color: #a89aa3;
+  }
+}
+
+// 手机端：卡片宽一点、字小一点、离顶部近一点
++mobile() {
+  .tw-welcome--center {
+    padding: 0 16px 6vh;
+  }
+
+  .tw-welcome--corner {
+    padding: 68px 14px 0;
+  }
+
+  .tw-welcome-card {
+    width: 92vw;
+    max-width: 92vw;
+    border-radius: 14px;
+  }
+
+  .tw-welcome-body {
+    padding: 17px 18px 2px;
+  }
+
+  .tw-welcome-foot {
+    padding: 0 18px;
+  }
+
+  .tw-welcome .tw-line {
+    font-size: 1.06em;
+    min-height: 1.9em;
+  }
+}
+
+// ---------- 系统开了「减少动态效果」：只留静态第一句，不闪不跳 ----------
+@media (prefers-reduced-motion: reduce) {
+  .tw-caret {
+    animation: none;
+  }
+
+  .tw-block.is-swap .tw-deco {
+    animation: none;
+  }
+
+  .tw-welcome-petals i {
+    animation: none;
+    opacity: 0;
+  }
+
+  .tw-welcome-card,
+  .tw-welcome.is-in .tw-welcome-card {
+    transition: none;
+    transform: none;
   }
 }
 

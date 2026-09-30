@@ -1,6 +1,6 @@
 <div class="reward-container">
   <div>{{ page.reward_settings.comment }}</div>
-  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+  <button onclick="var qr = this.nextElementSibling; qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
     {{ __('reward.donate') }}
   </button>
   <div id="qr" style="display: none;">

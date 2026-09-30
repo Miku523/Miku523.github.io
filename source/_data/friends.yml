@@ -1,0 +1,35 @@
+# ============================================================
+# 友链数据 —— 友链页面 /links/ 的内容来源
+# 改完这里执行 npm run build（或 hexo generate）即可生效，无需动代码
+#
+# 每条友链的字段：
+#   name   必填，站点名称
+#   url    必填，站点地址（写 https:// 开头，或只写域名会自动补 https）
+#   avatar 可选，头像图片地址；留空会自动用站点名首字生成一个渐变色块头像
+#   desc   可选，一句话简介，太长会被省略号截断
+#   group  可选，分组名；同名的会挨在一起，按第一次出现的顺序排列
+#          不写 group 则统一归到「朋友们」一组
+#
+# 头像建议：对方站点根目录的 favicon.ico / avatar.png，
+# 或者 https://你的图床/xxx.png，尺寸 200x200 以内即可
+# ============================================================
+
+friends:
+  - name: XBX老师
+    url: https://xbxyftx.top/
+    avatar: https://xbxyftx.top/img/logo.webp
+    desc: 心之所向，吾之所往
+    group: 老师
+
+  - name: BaiYB老师
+    url: https://baiyb.top/
+    avatar: https://baiyb.top/img/favicon.ico
+    desc: BaiYB 的个人博客
+    group: 老师
+
+  # ↓↓↓ 复制下面这段，改成朋友的站点 ↓↓↓
+  # - name: 某某的博客
+  #   url: https://example.com
+  #   avatar: https://example.com/avatar.png
+  #   desc: 一个爱写代码的人
+  #   group: 常逛的博客

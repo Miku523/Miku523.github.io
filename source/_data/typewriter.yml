@@ -1,0 +1,122 @@
+# ============================================================
+# 打字机效果（和风樱花打字机）—— 唯一配置文件
+# 改完执行 npm run build（或 hexo generate）即可生效，不需要动代码
+#
+# 它由三部分组成：
+#   1) subtitle  —— 站名下方那行副标题，每一页都会打字（全站生效）
+#   2) welcome   —— 进场时弹出的欢迎弹层，随时段问候（可关，默认只在首页弹一次）
+#   3) {% typewriter %} 标签 —— 在任意文章 / 页面里插一块打字机卡片
+#      用法见文件末尾的说明，示例见 source/about/index.md
+#
+# 字体：霞鹜文楷（LXGW WenKai）手写楷体，和背景的和风樱花插画最搭。
+#       用的是「按 unicode-range 分片」的 webfont，浏览器只会下载用到的
+#       那几片，一般几十 KB；CDN 挂了会自动退回系统楷体，效果依然成立。
+# ============================================================
+
+# 总开关：false = 全部关掉（副标题恢复成 _config.yml 里的静态文字）
+enable: true
+
+# ---------- 字体 ----------
+font:
+  enable: true
+  # 霞鹜文楷 webfont（分片版）。国内如果觉得慢，可以换成镜像：
+  #   https://fastly.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css
+  url: https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css
+  family: LXGW WenKai
+  # 想更纤细一点，可以把上面 url / family 换成 light 版：
+  #   url:    https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-light.css
+  #   family: LXGW WenKai Light
+
+# ---------- 速度（副标题和标签共用，标签里可以用参数单独覆盖） ----------
+timing:
+  type_speed: 135      # 每打一个字等多少毫秒
+  delete_speed: 55     # 退格删一个字等多少毫秒
+  hold_time: 2400      # 一句话打完后停留多久（毫秒）
+  gap_time: 460        # 删完到下一条开始之间的停顿
+  start_delay: 900     # 进入页面后延迟多久开始打字（等头部入场动画）
+  jitter: 45           # 打字节奏的随机抖动 ±毫秒，让手感更像真人
+  pause_on_hover: true # 鼠标移到文字上暂停
+  click_to_skip: true  # 点一下直接换下一条
+
+# ---------- 站名下方的副标题 ----------
+subtitle:
+  enable: true
+  # true = 自动把 _config.yml 里的副标题（愿此行，终抵群星）也加进循环，并排在最前面；
+  #        如果下面 lines 里已经写了同一句，就按 lines 里的位置走，不会重复
+  keep_original: true
+  # 循环播放的句子（建议每条不超过 12 个字，太长了窄栏里会换行）
+  lines:
+    - 落樱成雪，赴一场春日的约
+    - 愿此行，终抵群星
+    - 星が降る夜、夢を見る
+    - 一切过往，皆为序章
+    - 与君初相识，犹如故人归
+    - 向着群星，继续前行
+  # 只想让副标题用自己的句子，不想要 _config.yml 那条？把 keep_original 改成 false
+
+# ---------- 进场欢迎弹层 ----------
+# 打开网站后浮出来的一张欢迎卡片，文字逐字打出来，打完停留一会儿再淡出。
+# 不想看它？把 enable 改成 false 就行，其余部分（副标题、卡片）照常工作。
+welcome:
+  enable: true
+  # 在哪弹：home = 只在首页弹；all = 每个页面都弹
+  scope: home
+  # true = 一次会话（同一个标签页）只弹一次，刷新、翻页都不会再打扰
+  #        想每次刷新都看一遍就改成 false
+  once_per_session: true
+  # center = 屏幕居中偏上的大卡片（有淡樱花色遮罩，更像"进场仪式"）
+  # corner = 右上角的小卡片（抄参考站的姿势，不挡内容）
+  position: center
+  # 卡片顶部那行字
+  title: 欢迎来到 Ascend Log
+  # 卡片底部的小字提示（留空就不显示）
+  footer: 按 ESC 或点右上角 ×，可以提前关掉
+  # 弹出来之前等多久（毫秒），留一点时间让背景和头部入场动画先跑完
+  delay: 850
+  # 打字速度：毫秒 / 字。比副标题快一点，等太久会让人烦
+  type_speed: 82
+  # 一句话打完之后停留多久（毫秒）再淡出
+  hold_time: 3000
+  # 淡出动画时长（毫秒）
+  fade_time: 680
+  # true = 打完自动消失；false = 一直留在屏幕上，得自己关
+  auto_close: true
+  # 显示右上角的关闭按钮（按 ESC 也能关，两个都跟这个开关走）
+  closable: true
+  # 居中的那层淡樱色遮罩。它是"看得见点不着"的，不会挡住页面滚动和点击
+  mask: true
+  # true = 每次随机抽一条；false = 按下面的顺序一条条轮着来
+  random: true
+  # 欢迎语（挑一句话，或者狠狠加）
+  lines:
+    - 欢迎光临，这里是 Miku 的小站
+    - 泡杯茶，慢慢看，不着急
+    - 落樱成雪，赴一场春日的约
+    - 今夜も星が綺麗ですね
+    - 愿你在这儿找到想要的东西
+    - 愿此行，终抵群星
+
+# ============================================================
+# {% typewriter %} 标签用法
+#
+# 在文章 / 页面里这样写（每行一句，会自动剔掉空行）：
+#
+#   {% typewriter %}
+#   第一句话
+#   第二句话
+#   {% endtypewriter %}
+#
+# 想覆盖速度就在开头加参数（都不写就用上面 timing 里的默认值）：
+#
+#   {% typewriter speed:90 hold:3000 loop:false %}
+#   只打一遍、不循环的一句话
+#   {% endtypewriter %}
+#
+#   参数：speed   打字速度（毫秒/字）
+#         delete  退格速度
+#         hold    打完停留时间
+#         gap     两条之间的停顿
+#         delay   开始前的延迟
+#         loop    false = 只打一遍不循环
+#   （loop:false 很适合「关于」页的自我介绍）
+# ============================================================

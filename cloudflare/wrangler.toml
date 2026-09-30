@@ -1,0 +1,16 @@
+name = "reimu-chat"
+main = "reimu-chat-worker.js"
+compatibility_date = "2025-01-01"
+
+# 自定义域名：绑给 Worker，国内可访问（workers.dev 被墙）
+routes = [
+  { pattern = "chat.mikuascendlog.com", custom_domain = true }
+]
+
+# 普通变量直接写在这里（部署时生效）
+# API_KEY 是机密，不写在这里，用 wrangler secret 单独注入
+[vars]
+API_BASE = "https://api.deepseek.com/v1"
+MODEL = "deepseek-chat"
+RATE_LIMIT = "12"
+DAILY_LIMIT = "60"

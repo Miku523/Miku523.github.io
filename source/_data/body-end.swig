@@ -505,3 +505,28 @@
   });
 })();
 </script>
+
+<!-- ============================================================
+     Live2D 看板娘：博丽灵梦 + AI 聊天
+     - 模型：/live2d/reimu/（东方 Cannon Ball，Cubism 3，全部自托管）
+     - 运行时：/js/vendor/（pixi 6 + Cubism Core + pixi-live2d-display）
+     - 脚本：/js/reimu-live2d.js（左侧固定，点击互动，移动端不加载）
+     - 聊天：/js/reimu-chat.js（后端为 Cloudflare Worker，见 cloudflare/README.md）
+     - defer 保证按序执行（聊天面板依赖看板娘先就位）
+==================================================================== -->
+<script defer src="/js/vendor/live2dcubismcore.min.js"></script>
+<script defer src="/js/vendor/pixi.min.js"></script>
+<script defer src="/js/vendor/pixi-live2d-display-cubism4.min.js"></script>
+<script defer src="/js/reimu-live2d.js"></script>
+<script defer src="/js/reimu-chat.js"></script>
+
+<!-- ============================================================
+     和风樱花打字机：站名下方的副标题 + 文章里的 typewriter 卡片
+     - 文案 / 速度 / 字体：source/_data/typewriter.yml
+     - 样式：source/_data/styles.styl 的「和风樱花打字机」段落
+     - 脚本：/js/typewriter.js
+     - 字体 link、配置与脚本标签全部由 scripts/typewriter.js 里的
+       after_render:html 过滤器自动注入，这里不需要额外写什么
+     ※ 本文件是 nunjucks 模板，注释里不要出现大括号加百分号的标签写法，
+       否则会被当成标签解析、整个页面渲染失败
+==================================================================== -->
