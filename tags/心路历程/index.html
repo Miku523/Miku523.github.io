@@ -101,8 +101,9 @@
 
 <link rel="alternate" href="/atom.xml" title="Ascend Log" type="application/atom+xml">
 <!-- 和风樱花打字机：手写体 webfont（按 unicode-range 分片，只下载用到的字） -->
-<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css">
+<link rel="preconnect" href="https://fastly.jsdelivr.net" crossorigin>
+<link rel="preload" as="style" href="https://fastly.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css"></noscript>
 <style>:root{--tw-font:"LXGW WenKai","Kaiti SC",KaiTi,STKaiti,"楷体","AR PL UKai CN","Songti SC",serif}</style>
 </head>
 
@@ -380,13 +381,16 @@
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>
-  <div class="addthis_inline_share_toolbox">
-    <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=true" async="async"></script>
-  </div>
 
         
-<div class="busuanzi-count">
-  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="busuanzi-count"><script>
+    window.addEventListener('load', function () {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js';
+      document.body.appendChild(s);
+    });
+  </script>
     <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
       <span class="post-meta-item-icon">
         <i class="fa fa-user"></i>
@@ -1760,7 +1764,9 @@ html[data-theme='dark'] #music-player .mp-list::-webkit-scrollbar-thumb {
     </div>
     <ul class="mp-list"></ul>
   </section>
-  <audio class="mp-audio" preload="metadata"></audio>
+  <!-- 2026-09-30：preload 改 none。metadata 模式下赋值 src 也会拉一大段音频，
+       实测把 window load 拖慢 6 秒（pace 进度条干转）。none 时按下播放才拉流。 -->
+  <audio class="mp-audio" preload="none"></audio>
 </div>
 <script defer src="/js/music-player.js"></script>
 <!-- 和风樱花打字机：配置 + 运行脚本（defer，等 DOM 就绪再动手） -->

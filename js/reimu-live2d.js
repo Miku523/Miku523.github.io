@@ -11,6 +11,11 @@
 (function () {
   'use strict';
 
+  // 2026-09-30：整个初始化推迟到 window load 之后。
+  // 之前脚本一解析就建 WebGL 上下文 + 拉 700KB 贴图，会把 window load 拖住
+  // （pace 进度条多转好几秒）；看板娘是装饰，晚一秒出现完全无感。
+  function boot() {
+
   // ---------- 环境守卫：移动端 / 减少动效 / 运行时未就绪 ----------
   if (window.innerWidth < 900) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -105,4 +110,12 @@
       canvas.remove();
       app.destroy(false);
     });
+  }
+
+  // 页面加载完再请灵梦出场：等 1.2s 让 pace 进度条和入场动画先收场
+  if (document.readyState === 'complete') {
+    setTimeout(boot, 1200);
+  } else {
+    window.addEventListener('load', function () { setTimeout(boot, 1200); });
+  }
 })();
