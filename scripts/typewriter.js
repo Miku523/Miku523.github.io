@@ -31,7 +31,7 @@ const DEFAULTS = {
   enable: true,
   font: {
     enable: true,
-    url: 'https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css',
+    url: 'https://fastly.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css',
     family: 'LXGW WenKai'
   },
   timing: {
@@ -206,14 +206,18 @@ function buildHead(cfg) {
     return '<style>:root{--tw-font:' + stack('KaiTi') + '}</style>\n';
   }
 
-  let host = 'https://cdn.jsdelivr.net';
+  let host = 'https://fastly.jsdelivr.net';
   try {
     host = new URL(font.url).origin;
   } catch (err) { /* 地址不合法就退回默认 CDN 做预连接 */ }
 
+  // 2026-09-30：字体 CSS 改为非阻塞加载（preload + onload 切 rel）。
+  // 装饰性字体不该卡住首屏渲染——CDN 慢/挂时页面先用系统楷体渲染，
+  // webfont 到了再切换，视觉回退本来就设计成成立。
   return '<!-- 和风樱花打字机：手写体 webfont（按 unicode-range 分片，只下载用到的字） -->\n'
     + '<link rel="preconnect" href="' + escapeAttr(host) + '" crossorigin>\n'
-    + '<link rel="stylesheet" href="' + escapeAttr(font.url) + '">\n'
+    + '<link rel="preload" as="style" href="' + escapeAttr(font.url) + '" onload="this.onload=null;this.rel=\'stylesheet\'">\n'
+    + '<noscript><link rel="stylesheet" href="' + escapeAttr(font.url) + '"></noscript>\n'
     + '<style>:root{--tw-font:' + stack(font.family) + '}</style>\n';
 }
 

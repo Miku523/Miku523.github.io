@@ -1,6 +1,17 @@
 {%- if theme.busuanzi_count.enable %}
 <div class="busuanzi-count">
-  <script{{ pjax }} async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  {#- 2026-09-30 修复：不蒜子服务不稳定（实测间歇性连接超时 40s+），
+      原来的 <script async> 虽异步执行但会阻塞 window load 事件，
+      导致 pace 进度条一直转圈。改为 window load 后再动态注入脚本，
+      服务挂掉时计数位保持隐藏（display:none），页面加载完全不受影响。 -#}
+  <script{{ pjax }}>
+    window.addEventListener('load', function () {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js';
+      document.body.appendChild(s);
+    });
+  </script>
 
   {%- if theme.busuanzi_count.total_visitors %}
     <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">

@@ -662,7 +662,9 @@ rating:
 
 # AddThis Share. See: https://www.addthis.com
 # Go to https://www.addthis.com/dashboard to customize your tools.
-add_this_id: true
+# 2026-09-30 禁用：AddThis 域名在国内被阻断，async 脚本会拖住 window load 事件，
+# 且 pubid=true 是误配置（分享框本来就是空的），游客端只看到一直转圈的加载条。
+add_this_id:
 
 
 # ---------------------------------------------------------------

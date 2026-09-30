@@ -107,7 +107,9 @@ function buildMarkup() {
     </div>
     <ul class="mp-list"></ul>
   </section>
-  <audio class="mp-audio" preload="metadata"></audio>
+  <!-- 2026-09-30：preload 改 none。metadata 模式下赋值 src 也会拉一大段音频，
+       实测把 window load 拖慢 6 秒（pace 进度条干转）。none 时按下播放才拉流。 -->
+  <audio class="mp-audio" preload="none"></audio>
 </div>
 `;
 }

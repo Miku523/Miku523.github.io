@@ -19,9 +19,9 @@ enable: true
 # ---------- 字体 ----------
 font:
   enable: true
-  # 霞鹜文楷 webfont（分片版）。国内如果觉得慢，可以换成镜像：
-  #   https://fastly.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css
-  url: https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css
+  # 霞鹜文楷 webfont（分片版）。2026-09-30 已从 cdn.jsdelivr.net 切到 fastly 镜像：
+  # 主站在国内解析不稳（游客端实测 2.4s+ 且可能直接被重置），fastly 镜像国内可达性更好。
+  url: https://fastly.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css
   family: LXGW WenKai
   # 想更纤细一点，可以把上面 url / family 换成 light 版：
   #   url:    https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-light.css
