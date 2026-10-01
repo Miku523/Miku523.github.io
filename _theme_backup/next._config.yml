@@ -514,7 +514,10 @@ math:
 
 # Easily enable fast Ajax navigation on your website.
 # Dependencies: https://github.com/theme-next/theme-next-pjax
-pjax: false
+# 2026-10-01 启用：音乐播放器等悬浮组件靠 pjax 换页不刷新 <audio> 实现连续播放。
+# 注意：pjax.swig 已按本站定制（不把 #pjax 容器本身列入替换选择器），
+#       换主题/升级主题时这两处要一起带走。
+pjax: true
 
 # FancyBox is a tool that offers a nice and elegant way to add zooming functionality for images.
 # For more information: https://fancyapps.com/fancybox
@@ -538,7 +541,8 @@ pangu: true
 # For more information: https://github.com/GoogleChromeLabs/quicklink
 # Front-matter (unsupport home archive).
 quicklink:
-  enable: true
+  # 2026-10-01：与 pjax 互斥（主题注释明确要求二选一），pjax 启用后关闭
+  enable: false
 
   # Home page and archive page can be controlled through home and archive options below.
   # This configuration item is independent of `enable`.
@@ -908,9 +912,9 @@ vendors:
   copy_tex_js:
   copy_tex_css:
 
-  # Internal version: 0.2.8
+  # Pjax（theme-next-pjax v0.2.8，已本地化到站点 source/lib/，国内访问 jsDelivr 不稳定）
   # pjax: //cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js
-  pjax:
+  pjax: /lib/pjax.min.js
 
   # FancyBox
   # jquery: //cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js
@@ -974,13 +978,12 @@ vendors:
   velocity:
   velocity_ui:
 
-  # Internal version: 1.0.2
+  # Pace（pace-js v1.2.4，已本地化到站点 source/lib/pace/ —— 主题默认的 lib/pace/
+  # 路径下没有文件，之前每页稳定两个 404，2026-10-01 修）
   # pace: //cdn.jsdelivr.net/npm/pace-js@1/pace.min.js
-  # pace: //cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js
   # pace_css: //cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css
-  # pace_css: //cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-minimal.min.css
-  pace:
-  pace_css:
+  pace: /lib/pace/pace.min.js
+  pace_css: /lib/pace/pace-theme-bounce.min.css
 
   # Internal version: 1.0.0
   # three: //cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js
