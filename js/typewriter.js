@@ -239,6 +239,8 @@
   function setupBlocks() {
     var nodes = document.querySelectorAll('.tw-block');
     Array.prototype.forEach.call(nodes, function (node) {
+      if (node.getAttribute('data-tw-init') === '1') return;   // pjax 换页重入时跳过已初始化的
+      node.setAttribute('data-tw-init', '1');
       var lines = [];
       try {
         lines = JSON.parse(node.getAttribute('data-lines') || '[]');
@@ -428,4 +430,9 @@
   } else {
     boot();
   }
+
+  // pjax 换页（整页不刷新）后，新换进来的文章里可能有 {% typewriter %} 卡片，
+  // 需要补一次初始化；副标题在头部（不换），欢迎弹层每会话只弹一次，都不用管。
+  // setupBlocks 内部靠 data-tw-init 跳过旧卡片，重复触发安全。
+  window.addEventListener('pjax:success', setupBlocks);
 })();

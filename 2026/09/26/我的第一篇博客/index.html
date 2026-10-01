@@ -72,7 +72,7 @@
   
 
 
-  <script>
+  <script data-pjax>
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
@@ -409,7 +409,41 @@
 
           </div>
           
-    <div class="comments" id="gitalk-container"></div>
+    
+<div class="comments" id="gitalk-container"></div>
+<link rel="stylesheet" href="/lib/gitalk.min.css">
+
+<script data-pjax>
+// 2026-10-01：脚本现在在文章内容流里，直开页面解析到此处时 NexT.utils（body 末尾）
+// 尚未加载，直接调用会 TypeError；pjax 重执行时 utils 又必须立即可用。
+// 所以：utils 就绪就立即跑，没就绪就等 window load（pjax 场景 load 早已触发，
+// 会走立即分支，两条路径都覆盖）。
+(function () {
+  function bootGitalk() {
+    NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+      NexT.utils.getScript('/lib/gitalk.min.js', () => {
+        var gitalk = new Gitalk({
+          clientID    : 'Ov23lihNGtBnadaDpXWx',
+          clientSecret: 'ce38937a208c86a78ce64d3513026fb5588eadc1',
+          repo        : 'Miku523.github.io',
+          owner       : 'Miku523',
+          admin       : ['Miku523'],
+          id          : 'fa27a6f7abfe6459a63d8b0e3527ba2d',
+            language: 'zh-CN',
+          distractionFreeMode: true
+        });
+        gitalk.render('gitalk-container');
+      }, window.Gitalk);
+    });
+  }
+  if (window.NexT && NexT.utils) {
+    bootGitalk();
+  } else {
+    window.addEventListener('load', bootGitalk);
+  }
+})();
+</script>
+
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -546,7 +580,7 @@
   </div>
 
         
-<div class="busuanzi-count"><script>
+<div class="busuanzi-count"><script data-pjax>
     window.addEventListener('load', function () {
       var s = document.createElement('script');
       s.async = true;
@@ -586,6 +620,7 @@
 
   
   <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax.min.js"></script>
   <script src="/lib/medium-zoom.min.js"></script>
   <script src="/lib/lozad.min.js"></script>
   <script src="/lib/pangu.min.js"></script>
@@ -604,11 +639,69 @@
 
 <script src="/js/bookmark.js"></script>
 
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
 
 
 
   
-  <script>
+  <script data-pjax>
     (function(){
       var canonicalURL, curProtocol;
       //Get the <link> tag
@@ -644,7 +737,7 @@
 
 
 
-<script>
+<script data-pjax>
 document.querySelectorAll('.pdfobject-container').forEach(element => {
   let url = element.dataset.target;
   let pdfOpenParams = {
@@ -666,7 +759,7 @@ document.querySelectorAll('.pdfobject-container').forEach(element => {
 </script>
 
 
-<script>
+<script data-pjax>
 if (document.querySelectorAll('pre.mermaid').length) {
   NexT.utils.getScript('/lib/mermaid.min.js', () => {
     mermaid.initialize({
@@ -681,39 +774,10 @@ if (document.querySelectorAll('pre.mermaid').length) {
 </script>
 
 
+    <div id="pjax">
   
 
   
-  <script src="/lib/quicklink.umd.js"></script>
-  <script>
-      window.addEventListener('load', () => {
-      quicklink({
-        timeout : 3000,
-        priority: true,
-        ignores : [uri => uri.includes('#'),uri => uri === 'https://mikuascendlog.com/2026/09/26/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/',]
-      });
-      });
-  </script>
-
-<link rel="stylesheet" href="/lib/gitalk.min.css">
-
-<script>
-NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
-  NexT.utils.getScript('/lib/gitalk.min.js', () => {
-    var gitalk = new Gitalk({
-      clientID    : 'Ov23lihNGtBnadaDpXWx',
-      clientSecret: 'ce38937a208c86a78ce64d3513026fb5588eadc1',
-      repo        : 'Miku523.github.io',
-      owner       : 'Miku523',
-      admin       : ['Miku523'],
-      id          : 'fa27a6f7abfe6459a63d8b0e3527ba2d',
-        language: 'zh-CN',
-      distractionFreeMode: true
-    });
-    gitalk.render('gitalk-container');
-  }, window.Gitalk);
-});
-</script>
 <button id="darkmode-btn" aria-label="切换昼夜模式"></button>
 
 <!-- 动态背景：纯 CSS 环境光层（柔光带 + 散景光斑，见 styles.styl 的 .bg-ambient） -->
@@ -1247,6 +1311,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
        否则会被当成标签解析、整个页面渲染失败
 ==================================================================== -->
 
+    </div>
 
 <style id="music-player-style">
 /* ============================================================

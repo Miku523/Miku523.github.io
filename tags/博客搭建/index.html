@@ -63,7 +63,7 @@
   
 
 
-  <script>
+  <script data-pjax>
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
@@ -387,7 +387,7 @@
   </div>
 
         
-<div class="busuanzi-count"><script>
+<div class="busuanzi-count"><script data-pjax>
     window.addEventListener('load', function () {
       var s = document.createElement('script');
       s.async = true;
@@ -427,6 +427,7 @@
 
   
   <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax.min.js"></script>
   <script src="/lib/medium-zoom.min.js"></script>
   <script src="/lib/lozad.min.js"></script>
   <script src="/lib/pangu.min.js"></script>
@@ -445,11 +446,69 @@
 
 <script src="/js/bookmark.js"></script>
 
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
 
 
 
   
-  <script>
+  <script data-pjax>
     (function(){
       var canonicalURL, curProtocol;
       //Get the <link> tag
@@ -485,7 +544,7 @@
 
 
 
-<script>
+<script data-pjax>
 document.querySelectorAll('.pdfobject-container').forEach(element => {
   let url = element.dataset.target;
   let pdfOpenParams = {
@@ -507,7 +566,7 @@ document.querySelectorAll('.pdfobject-container').forEach(element => {
 </script>
 
 
-<script>
+<script data-pjax>
 if (document.querySelectorAll('pre.mermaid').length) {
   NexT.utils.getScript('/lib/mermaid.min.js', () => {
     mermaid.initialize({
@@ -522,20 +581,10 @@ if (document.querySelectorAll('pre.mermaid').length) {
 </script>
 
 
+    <div id="pjax">
   
 
   
-  <script src="/lib/quicklink.umd.js"></script>
-  <script>
-      window.addEventListener('load', () => {
-      quicklink({
-        timeout : 3000,
-        priority: true,
-        ignores : [uri => uri.includes('#'),uri => uri === 'https://mikuascendlog.com/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/',]
-      });
-      });
-  </script>
-
 <button id="darkmode-btn" aria-label="切换昼夜模式"></button>
 
 <!-- 动态背景：纯 CSS 环境光层（柔光带 + 散景光斑，见 styles.styl 的 .bg-ambient） -->
@@ -1069,6 +1118,7 @@ if (document.querySelectorAll('pre.mermaid').length) {
        否则会被当成标签解析、整个页面渲染失败
 ==================================================================== -->
 
+    </div>
 
 <style id="music-player-style">
 /* ============================================================
