@@ -409,14 +409,33 @@
     }
 
     // 先滑入，再开始打字：两段动画错开会顺眼很多
-    setTimeout(function () {
-      root.classList.add('is-in');
-      if (REDUCE) {
-        startTyping(true);
-      } else {
-        setTimeout(function () { startTyping(false); }, 260);
-      }
-    }, num(w.delay, 850));
+    function slideIn() {
+      setTimeout(function () {
+        root.classList.add('is-in');
+        if (REDUCE) {
+          startTyping(true);
+        } else {
+          setTimeout(function () { startTyping(false); }, 260);
+        }
+      }, num(w.delay, 850));
+    }
+
+    // 人机验证门（human-gate）还没通过：先等它放行再进场。
+    // 门开始淡出时会派发 'human:verified'，届时才起上面的延迟计时，
+    // 一收一放正好接上，欢迎卡不会压在验证卡上面。
+    // 验证门没启用 / 已通过 / 脚本没加载时 __HUMAN_GATE_ACTIVE__ 不存在，
+    // 一切照旧（defer 脚本都在 DOMContentLoaded 前跑完，不存在时序竞争）。
+    if (window.__HUMAN_GATE_ACTIVE__ && !window.__humanGateVerified) {
+      // 兜底：万一验证门脚本中途出错、事件发不出来，90 秒后也照常进场，
+      // 不能让一个装饰性组件把欢迎卡永久卡住
+      var gateTimer = setTimeout(slideIn, 90000);
+      window.addEventListener('human:verified', function () {
+        clearTimeout(gateTimer);
+        slideIn();
+      }, { once: true });
+    } else {
+      slideIn();
+    }
   }
 
   function boot() {
