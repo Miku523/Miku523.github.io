@@ -145,6 +145,49 @@
     });
   }
 
+  // ---------- 二维码：点击后才加载图片 ----------
+  // 静态 HTML 里只有 <span class="cg-qr-btn" data-cg-qr data-cg-qrsrc="...">，
+  // 图片爬虫扫 HTML 拿不到 src；真人点击时才把 src 补到一个新 <img> 上。
+  function loadQR(el) {
+    // data-cg-qrsrc 里存的是 base64 路径，这里才还原
+    var src = b64decode(el.getAttribute('data-cg-qrsrc'));
+    if (!src) return;
+    var box = el.parentNode;
+    if (!box || !box.classList || !box.classList.contains('cg-qr-box')) {
+      // 没套容器就自己造一个，保证布局不乱
+      box = document.createElement('span');
+      box.className = 'cg-qr-box';
+      el.parentNode.insertBefore(box, el);
+      box.appendChild(el);
+    }
+
+    el.style.display = 'none';
+
+    var img = document.createElement('img');
+    img.alt = '二维码';
+    img.className = 'cg-qr-img';
+    var loading = document.createElement('span');
+    loading.className = 'cg-qr-loading';
+    loading.textContent = '加载中…';
+    box.appendChild(loading);
+
+    img.addEventListener('load', function () {
+      if (loading.parentNode) loading.parentNode.removeChild(loading);
+    });
+    img.addEventListener('error', function () {
+      if (loading.parentNode) loading.parentNode.removeChild(loading);
+      tip('二维码加载失败，请刷新重试');
+    });
+    box.appendChild(img);
+    img.src = src;   // ★ 到这一步才把地址交给浏览器
+  }
+
+  function onQRClick(e) {
+    var el = e.currentTarget;
+    e.preventDefault();
+    loadQR(el);
+  }
+
   // ---------- 绑定 ----------
   function bind() {
     var mails = document.querySelectorAll('[data-cg-mail]');
@@ -166,6 +209,30 @@
       if (q.getAttribute('data-cg-bound') === '1') continue;
       q.setAttribute('data-cg-bound', '1');
       q.addEventListener('click', onQQClick);
+    }
+
+    // 二维码：把 <img> 换成占位按钮（构建期没换干净时的兜底）
+    var qrs = document.querySelectorAll('[data-cg-qr]');
+    for (var k = 0; k < qrs.length; k++) {
+      (function (el) {
+        if (el.getAttribute('data-cg-bound') === '1') return;
+        el.setAttribute('data-cg-bound', '1');
+
+        // 注入器通常已把它变成 <span class="cg-qr-btn">；如果还是 <img>，
+        // 就地换成一个按钮（保证静态 HTML 里没有 src 的那套逻辑统一）
+        if (el.tagName === 'IMG') {
+          var btn = document.createElement('span');
+          btn.className = 'cg-qr-btn';
+          btn.setAttribute('data-cg-qr', '1');
+          // 兜底路径：把明文 src 现编成 base64，保持与注入器一致的形态
+          var raw = el.getAttribute('data-cg-qrsrc') || el.getAttribute('src') || '';
+          btn.setAttribute('data-cg-qrsrc', raw ? btoa(unescape(encodeURIComponent(raw))) : '');
+          btn.textContent = CFG.qrcode_placeholder || '点击查看二维码';
+          el.parentNode.replaceChild(btn, el);
+          el = btn;
+        }
+        el.addEventListener('click', onQRClick);
+      })(qrs[k]);
     }
   }
 
