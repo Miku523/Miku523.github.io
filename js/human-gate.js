@@ -225,10 +225,25 @@
   // ---------- 启动 ----------
   function show() {
     document.body.appendChild(root);
-    lockScroll();
     btn = root.querySelector('.human-gate-check');
     label = root.querySelector('.human-gate-label');
 
+    // DOM 不完整（理论上不会发生，但拦路组件不能赌）：直接拆门放行
+    if (!btn || !label) {
+      if (root.parentNode) root.parentNode.removeChild(root);
+      window.__humanGateVerified = true;
+      emitVerified();
+      return;
+    }
+
+    // 保险先注册、后锁滚动：万一中间哪步抛异常，60 秒后也能自动放行，
+    // 不会把访客永久锁在外面。它只负责"救急"，不替看得慢的人做决定。
+    setTimeout(function () {
+      if (state === 'wait') verify();
+      else if (state === 'verifying') pass();
+    }, 60000);
+
+    lockScroll();
     btn.addEventListener('click', verify);
 
     // 下一帧再挂 is-in，让入场过渡有得播
@@ -238,14 +253,6 @@
         try { btn.focus({ preventScroll: true }); } catch (err) { btn.focus(); }
       });
     });
-
-    // 保险：万一脚本环境出问题把门卡住（DOM 异常、事件没挂上），
-    // 60 秒后自动放行，绝不能把访客永久锁在门外。
-    // 注意这个时长要足够长：它只负责"救急"，不该替看得慢的访客做决定。
-    setTimeout(function () {
-      if (state === 'wait') verify();
-      else if (state === 'verifying') pass();
-    }, 60000);
   }
 
   if (document.readyState === 'loading') {

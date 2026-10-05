@@ -105,6 +105,80 @@
 <link rel="preload" as="style" href="https://fastly.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css"></noscript>
 <style>:root{--tw-font:"LXGW WenKai","Kaiti SC",KaiTi,STKaiti,"楷体","AR PL UKai CN","Songti SC",serif}</style>
+<!-- 人机验证进场门：样式内联（拦路组件不能吃 main.css 的缓存） -->
+<style id="human-gate-style">
+.human-gate{position:fixed;top:0;left:0;right:0;bottom:0;z-index:2147482500;display:flex;align-items:center;justify-content:center;padding:0 20px 8vh;pointer-events:auto;opacity:0;transition:opacity .55s ease}
+.human-gate.is-in{opacity:1}
+.human-gate.is-out{opacity:0}
+.human-gate-backdrop{position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(62% 46% at 50% 42%,rgba(255,233,242,.5),rgba(255,233,242,0) 74%),linear-gradient(180deg,rgba(255,246,250,.5),rgba(255,246,250,.38))}
+.human-gate--blur .human-gate-backdrop{-webkit-backdrop-filter:blur(16px) saturate(140%);backdrop-filter:blur(16px) saturate(140%)}
+.human-gate-card{position:relative;width:88vw;max-width:370px;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.85);background:rgba(255,255,255,.78);-webkit-backdrop-filter:blur(14px) saturate(150%);backdrop-filter:blur(14px) saturate(150%);box-shadow:0 18px 46px rgba(214,143,176,.28),0 2px 10px rgba(0,0,0,.06);transform:translateY(18px) scale(.965);transition:transform .66s cubic-bezier(.16,.84,.28,1)}
+.human-gate.is-in .human-gate-card{transform:none}
+.human-gate-head{position:relative;display:flex;align-items:center;gap:9px;padding:13px 14px 13px 17px;background:linear-gradient(90deg,rgba(255,168,196,.38),rgba(57,197,187,.24));border-bottom:1px solid rgba(255,255,255,.68)}
+.human-gate-deco{flex:none;width:21px;height:21px;color:#ff8ab0;filter:drop-shadow(0 1px 5px rgba(255,138,176,.55))}
+.human-gate-deco svg{display:block;width:100%;height:100%}
+.human-gate-deco .hg-petal-core{fill:#fffafc}
+.human-gate-title{flex:1;min-width:0;font-family:var(--tw-font,"Kaiti SC",KaiTi,STKaiti,serif);font-size:15px;letter-spacing:.05em;color:#6d4553;text-shadow:0 1px 0 rgba(255,255,255,.6)}
+.human-gate-body{position:relative;padding:20px 20px 8px}
+.human-gate-msg{margin:0 0 14px;font-family:var(--tw-font,"Kaiti SC",KaiTi,STKaiti,serif);font-size:14.5px;line-height:1.7;color:#7a5563;text-align:center}
+.human-gate-check{display:flex;align-items:center;gap:12px;width:100%;padding:11px 14px;border:1px solid rgba(255,182,206,.55);border-radius:12px;background:rgba(255,255,255,.62);cursor:pointer;transition:border-color .22s ease,box-shadow .22s ease,transform .18s ease}
+.human-gate-check:hover:not(:disabled),.human-gate-check:focus-visible{border-color:#ff9fbe;box-shadow:0 4px 18px rgba(255,155,190,.28);outline:none}
+.human-gate-check:active:not(:disabled){transform:scale(.985)}
+.human-gate-check:disabled{cursor:default}
+.human-gate-box{position:relative;flex:none;display:flex;align-items:center;justify-content:center;width:23px;height:23px;border:2px solid #dfa2b8;border-radius:6px;background:rgba(255,255,255,.78);transition:background-color .25s ease,border-color .25s ease,box-shadow .25s ease}
+.human-gate-mark{width:17px;height:17px;color:#fff;opacity:0;transform:scale(.4);transition:opacity .22s ease,transform .3s cubic-bezier(.34,1.56,.64,1)}
+.human-gate-spin{position:absolute;top:50%;left:50%;width:17px;height:17px;margin:-8.5px 0 0 -8.5px;border:2px solid rgba(223,162,184,.3);border-top-color:#ff8ab0;border-radius:50%;opacity:0;transition:opacity .18s ease}
+.human-gate.is-verifying .human-gate-box{border-color:#ffb9d0}
+.human-gate.is-verifying .human-gate-spin{opacity:1;animation:hg-spin .8s linear infinite}
+.human-gate.is-passed .human-gate-box{border-color:transparent;background:linear-gradient(135deg,#ffa5c3,#ff8ab0);box-shadow:0 2px 10px rgba(255,138,176,.55)}
+.human-gate.is-passed .human-gate-mark{opacity:1;transform:scale(1)}
+.human-gate-label{flex:1;min-width:0;min-height:1.7em;font-family:var(--tw-font,"Kaiti SC",KaiTi,STKaiti,serif);font-size:15px;letter-spacing:.04em;color:#6d4553;text-align:left;text-shadow:0 1px 0 rgba(255,255,255,.5)}
+.human-gate.is-verifying .human-gate-label{color:#96707f}
+.human-gate.is-passed .human-gate-label{color:#d96a97}
+.human-gate-brand{flex:none;display:flex;flex-direction:column;align-items:center;gap:2px;padding-left:12px;border-left:1px dashed rgba(223,162,184,.45)}
+.human-gate-brand svg{width:17px;height:17px;color:#ff8ab0}
+.human-gate-brand .hg-petal-core{fill:#fffafc}
+.human-gate-brand i{font-style:normal;font-size:9px;letter-spacing:.06em;color:#ab8a99}
+.human-gate-foot{margin:12px 0 0;padding:0 4px 12px;font-size:11.5px;line-height:1.6;color:#ab8a99;text-align:center}
+.human-gate-petals{position:absolute;top:0;left:0;right:0;bottom:0;overflow:hidden;pointer-events:none}
+.human-gate-petals i{position:absolute;top:-14px;width:9px;height:9px;border-radius:50% 0 50% 50%;background:linear-gradient(135deg,#ffc9dc,#ff9dbe);opacity:0;animation-play-state:paused}
+.human-gate-petals i:nth-child(1){left:12%;animation:hg-fall 5.2s linear infinite;animation-delay:.1s}
+.human-gate-petals i:nth-child(2){left:33%;width:7px;height:7px;animation:hg-fall 6.4s linear infinite;animation-delay:1.6s}
+.human-gate-petals i:nth-child(3){left:55%;animation:hg-fall 5.8s linear infinite;animation-delay:3s}
+.human-gate-petals i:nth-child(4){left:72%;width:6px;height:6px;animation:hg-fall 6.8s linear infinite;animation-delay:4.2s}
+.human-gate-petals i:nth-child(5){left:88%;width:7px;height:7px;animation:hg-fall 5.5s linear infinite;animation-delay:5.1s}
+.human-gate.is-passed .human-gate-petals i{animation-play-state:running}
+.human-gate.is-passed .human-gate-card{animation:hg-glow 1.4s ease .05s 1}
+@keyframes hg-spin{to{transform:rotate(360deg)}}
+@keyframes hg-fall{0%{opacity:0;transform:translate3d(0,-6px,0) rotate(0deg)}12%{opacity:.75}70%{opacity:.55}100%{opacity:0;transform:translate3d(-16px,300px,0) rotate(320deg)}}
+@keyframes hg-glow{0%{box-shadow:0 18px 46px rgba(214,143,176,.28),0 2px 10px rgba(0,0,0,.06)}35%{box-shadow:0 18px 56px rgba(255,138,176,.5),0 0 0 3px rgba(255,182,206,.55),0 2px 10px rgba(0,0,0,.06)}100%{box-shadow:0 18px 46px rgba(214,143,176,.28),0 2px 10px rgba(0,0,0,.06)}}
+html[data-theme='dark'] .human-gate-backdrop{background:radial-gradient(62% 46% at 50% 42%,rgba(120,72,92,.42),rgba(120,72,92,0) 74%),linear-gradient(180deg,rgba(26,22,26,.55),rgba(26,22,26,.45))}
+html[data-theme='dark'] .human-gate-card{background:rgba(46,44,54,.82);border-color:rgba(255,255,255,.12);box-shadow:0 18px 46px rgba(0,0,0,.45),0 0 0 1px rgba(255,168,196,.1)}
+html[data-theme='dark'] .human-gate-head{background:linear-gradient(90deg,rgba(255,168,196,.3),rgba(57,197,187,.2));border-bottom-color:rgba(255,255,255,.1)}
+html[data-theme='dark'] .human-gate-title{color:#ffdcea;text-shadow:0 0 12px rgba(255,168,196,.35)}
+html[data-theme='dark'] .human-gate-msg{color:#d9c8d1}
+html[data-theme='dark'] .human-gate-check{border-color:rgba(255,168,196,.35);background:rgba(255,255,255,.06)}
+html[data-theme='dark'] .human-gate-check:hover:not(:disabled),html[data-theme='dark'] .human-gate-check:focus-visible{border-color:rgba(255,168,196,.65);box-shadow:0 4px 18px rgba(255,138,176,.2)}
+html[data-theme='dark'] .human-gate-box{border-color:rgba(255,168,196,.5);background:rgba(255,255,255,.08)}
+html[data-theme='dark'] .human-gate-label{color:#f2e9ee;text-shadow:0 0 14px rgba(255,168,196,.25)}
+html[data-theme='dark'] .human-gate.is-verifying .human-gate-label{color:#c4b2bb}
+html[data-theme='dark'] .human-gate.is-passed .human-gate-label{color:#ffb9d0}
+html[data-theme='dark'] .human-gate-brand i{color:#a89aa3}
+html[data-theme='dark'] .human-gate-foot{color:#a89aa3}
+@media (max-width:767px){
+  .human-gate{padding:0 14px 6vh}
+  .human-gate-card{width:92vw;max-width:92vw;border-radius:14px}
+  .human-gate-body{padding:16px 15px 6px}
+  .human-gate-check{gap:10px;padding:10px 12px}
+  .human-gate-label{font-size:14px}
+}
+@media (prefers-reduced-motion: reduce){
+  .human-gate,.human-gate-card,.human-gate.is-in .human-gate-card{transition:none;transform:none}
+  .human-gate-spin{animation:none}
+  .human-gate-petals i{animation:none;opacity:0}
+  .human-gate.is-passed .human-gate-card{animation:none}
+}
+</style>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" data-pagefind-ignore>
@@ -1357,6 +1431,12 @@ if (document.querySelectorAll('pre.mermaid').length) {
 ==================================================================== -->
 
     </div>
+<!-- 和风樱花打字机：配置 + 运行脚本（defer，等 DOM 就绪再动手） -->
+<script>window.__TW_CONFIG__={"enable":true,"timing":{"type_speed":135,"delete_speed":55,"hold_time":2400,"gap_time":460,"start_delay":900,"jitter":45,"pause_on_hover":true,"click_to_skip":true},"subtitle":{"enable":true,"keep_original":true,"lines":["你指间跃动的电光，是我此生不变的信仰","愿此行，终抵群星","星が降る夜、夢を見る","一切过往，皆为序章","与君初相识，犹如故人归","过去从未逝去，它甚至从未过去"]},"welcome":{"enable":true,"scope":"home","once_per_session":true,"position":"center","title":"欢迎来到 Ascend Log","footer":"按 ESC 或点右上角 ×，可以提前关掉","delay":850,"type_speed":82,"hold_time":3000,"fade_time":680,"auto_close":true,"closable":true,"mask":true,"random":true,"lines":["欢迎光临，这里是 君名miku 的小站","网页须慢载，心急则卡404","我来同你看","今夜も星が綺麗ですね","愿你在这儿找到想要的东西","愿此行，终抵群星"]}};</script>
+<script defer src="/js/typewriter.js?v=9a843e82"></script>
+<!-- 人机验证进场门：配置 + 运行脚本（defer，等 DOM 就绪再动手） -->
+<script>window.__GATE_CONFIG__={"enable":true,"once_per_session":true,"blur":true,"title":"人机验证","message":"为确认您不是机器人，请完成验证","button":"我不是机器人","brand":"Ascend Log","success":"验证通过，欢迎光临","footer":"本会话只需验证一次，刷新 / 翻页不再打扰","verify_lines":["正在检测指尖温度…","正在清点樱花瓣…","正在与星空比对…","正在确认心跳频率…","正在排练欢迎语…","正在给灵梦递茶…"],"verify_min":900,"verify_max":1600,"verify_line_interval":620,"hold_time":900,"fade_time":620};</script>
+<script defer src="/js/human-gate.js?v=434729a8"></script>
 
 <style id="music-player-style">
 /* ============================================================
@@ -2061,11 +2141,5 @@ html[data-theme='dark'] #music-player .mp-list::-webkit-scrollbar-thumb {
   <audio class="mp-audio" preload="none"></audio>
 </div>
 <script defer src="/js/music-player.js"></script>
-<!-- 人机验证进场门：配置 + 运行脚本（defer，等 DOM 就绪再动手） -->
-<script>window.__GATE_CONFIG__={"enable":true,"once_per_session":true,"blur":true,"title":"人机验证","message":"为确认您不是机器人，请完成验证","button":"我不是机器人","brand":"Ascend Log","success":"验证通过，欢迎光临","footer":"本会话只需验证一次，刷新 / 翻页不再打扰","verify_lines":["正在检测指尖温度…","正在清点樱花瓣…","正在与星空比对…","正在确认心跳频率…","正在排练欢迎语…","正在给灵梦递茶…"],"verify_min":900,"verify_max":1600,"verify_line_interval":620,"hold_time":900,"fade_time":620};</script>
-<script defer src="/js/human-gate.js"></script>
-<!-- 和风樱花打字机：配置 + 运行脚本（defer，等 DOM 就绪再动手） -->
-<script>window.__TW_CONFIG__={"enable":true,"timing":{"type_speed":135,"delete_speed":55,"hold_time":2400,"gap_time":460,"start_delay":900,"jitter":45,"pause_on_hover":true,"click_to_skip":true},"subtitle":{"enable":true,"keep_original":true,"lines":["你指间跃动的电光，是我此生不变的信仰","愿此行，终抵群星","星が降る夜、夢を見る","一切过往，皆为序章","与君初相识，犹如故人归","过去从未逝去，它甚至从未过去"]},"welcome":{"enable":true,"scope":"home","once_per_session":true,"position":"center","title":"欢迎来到 Ascend Log","footer":"按 ESC 或点右上角 ×，可以提前关掉","delay":850,"type_speed":82,"hold_time":3000,"fade_time":680,"auto_close":true,"closable":true,"mask":true,"random":true,"lines":["欢迎光临，这里是 君名miku 的小站","网页须慢载，心急则卡404","我来同你看","今夜も星が綺麗ですね","愿你在这儿找到想要的东西","愿此行，终抵群星"]}};</script>
-<script defer src="/js/typewriter.js"></script>
 </body>
 </html>
