@@ -344,7 +344,7 @@
     var baseTheme = currentTheme();
     var settled = false;
     // 给页面自身的初始化留一个窗口期，这段时间内的变化一律不算"用户切换"
-    setTimeout(function () { settled = true; }, num(TS.theme_settle, 1500); });
+    setTimeout(function () { settled = true; }, num(TS.theme_settle, 1500));
 
     themeObserver = new MutationObserver(function () {
       if (!settled) return;                          // 页面初始化阶段，忽略
