@@ -109,18 +109,17 @@
 </noscript>
 
 <link rel="alternate" href="/atom.xml" title="Ascend Log" type="application/atom+xml">
-<!-- 和风樱花打字机：手写体 webfont（按 unicode-range 分片，只下载用到的字） -->
-<link rel="preconnect" href="https://fastly.jsdelivr.net" crossorigin>
-<link rel="preload" as="style" href="https://fastly.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css"></noscript>
-<style>:root{--tw-font:"LXGW WenKai","Kaiti SC",KaiTi,STKaiti,"楷体","AR PL UKai CN","Songti SC",serif}</style>
 <!-- 人机验证进场门：样式内联（拦路组件不能吃 main.css 的缓存） -->
 <style id="human-gate-style">
 .human-gate{position:fixed;top:0;left:0;right:0;bottom:0;z-index:2147482500;display:flex;align-items:center;justify-content:center;padding:0 20px 8vh;pointer-events:auto;opacity:0;transition:opacity .55s ease}
 .human-gate.is-in{opacity:1}
 .human-gate.is-out{opacity:0}
+// 背景遮罩：白天一层淡樱色薄雾；--blur 时叠毛玻璃。
+// ★ 模糊强度压到 6px：本站背景本身已有 bg.png 静态层 + .bg-ambient 环境光，
+//   再叠一层 16px 的 backdrop-filter 会把整页糊成一片白。6px 只做"隔开"
+//   的观感，不牺牲可读性；重绘开销也小得多（低端机不掉帧）。
 .human-gate-backdrop{position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(62% 46% at 50% 42%,rgba(255,233,242,.5),rgba(255,233,242,0) 74%),linear-gradient(180deg,rgba(255,246,250,.5),rgba(255,246,250,.38))}
-.human-gate--blur .human-gate-backdrop{-webkit-backdrop-filter:blur(16px) saturate(140%);backdrop-filter:blur(16px) saturate(140%)}
+.human-gate--blur .human-gate-backdrop{-webkit-backdrop-filter:blur(6px) saturate(120%);backdrop-filter:blur(6px) saturate(120%)}
 .human-gate-card{position:relative;width:88vw;max-width:370px;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.85);background:rgba(255,255,255,.78);-webkit-backdrop-filter:blur(14px) saturate(150%);backdrop-filter:blur(14px) saturate(150%);box-shadow:0 18px 46px rgba(214,143,176,.28),0 2px 10px rgba(0,0,0,.06);transform:translateY(18px) scale(.965);transition:transform .66s cubic-bezier(.16,.84,.28,1)}
 .human-gate.is-in .human-gate-card{transform:none}
 .human-gate-head{position:relative;display:flex;align-items:center;gap:9px;padding:13px 14px 13px 17px;background:linear-gradient(90deg,rgba(255,168,196,.38),rgba(57,197,187,.24));border-bottom:1px solid rgba(255,255,255,.68)}
@@ -149,6 +148,15 @@
 .human-gate-brand .hg-petal-core{fill:#fffafc}
 .human-gate-brand i{font-style:normal;font-size:9px;letter-spacing:.06em;color:#ab8a99}
 .human-gate-foot{margin:12px 0 0;padding:0 4px 12px;font-size:11.5px;line-height:1.6;color:#ab8a99;text-align:center}
+.human-gate-tw{width:100%;display:flex;justify-content:center;min-height:67px;margin:0 0 6px}
+.human-gate-tw.is-gone{display:none}
+.human-gate-result{display:flex;align-items:center;gap:12px;width:100%;padding:11px 14px;border:1px solid rgba(255,182,206,.55);border-radius:12px;background:rgba(255,255,255,.62)}
+.human-gate-status{margin:10px 0 0;font-size:13px;line-height:1.6;color:#96707f;text-align:center}
+.human-gate-status.is-error{color:#c25b7c}
+.human-gate-escape{display:block;margin:14px auto 0;padding:6px 14px;border:0;border-radius:999px;background:rgba(255,182,206,.16);color:#a06e81;font-size:12.5px;line-height:1.6;cursor:pointer;transition:background-color .2s ease,color .2s ease}
+.human-gate-escape:hover{background:rgba(255,182,206,.3);color:#c4537d}
+.human-gate-escape:focus-visible{outline:1px solid #ff9fbe}
+.human-gate-result[hidden],.human-gate-status[hidden],.human-gate-escape[hidden]{display:none!important}
 .human-gate-petals{position:absolute;top:0;left:0;right:0;bottom:0;overflow:hidden;pointer-events:none}
 .human-gate-petals i{position:absolute;top:-14px;width:9px;height:9px;border-radius:50% 0 50% 50%;background:linear-gradient(135deg,#ffc9dc,#ff9dbe);opacity:0;animation-play-state:paused}
 .human-gate-petals i:nth-child(1){left:12%;animation:hg-fall 5.2s linear infinite;animation-delay:.1s}
@@ -174,12 +182,19 @@ html[data-theme='dark'] .human-gate.is-verifying .human-gate-label{color:#c4b2bb
 html[data-theme='dark'] .human-gate.is-passed .human-gate-label{color:#ffb9d0}
 html[data-theme='dark'] .human-gate-brand i{color:#a89aa3}
 html[data-theme='dark'] .human-gate-foot{color:#a89aa3}
+html[data-theme='dark'] .human-gate-result{border-color:rgba(255,168,196,.35);background:rgba(255,255,255,.06)}
+html[data-theme='dark'] .human-gate-status{color:#c4b2bb}
+html[data-theme='dark'] .human-gate-status.is-error{color:#ff9fb8}
+html[data-theme='dark'] .human-gate-escape{background:rgba(255,168,196,.12);color:#c9a9b6}
+html[data-theme='dark'] .human-gate-escape:hover{background:rgba(255,168,196,.25);color:#ffb9d0}
 @media (max-width:767px){
   .human-gate{padding:0 14px 6vh}
   .human-gate-card{width:92vw;max-width:92vw;border-radius:14px}
   .human-gate-body{padding:16px 15px 6px}
   .human-gate-check{gap:10px;padding:10px 12px}
   .human-gate-label{font-size:14px}
+  .human-gate-result{gap:10px;padding:10px 12px}
+  .human-gate-tw{min-height:65px}
 }
 @media (prefers-reduced-motion: reduce){
   .human-gate,.human-gate-card,.human-gate.is-in .human-gate-card{transition:none;transform:none}
@@ -188,6 +203,11 @@ html[data-theme='dark'] .human-gate-foot{color:#a89aa3}
   .human-gate.is-passed .human-gate-card{animation:none}
 }
 </style>
+<!-- 和风樱花打字机：手写体 webfont（按 unicode-range 分片，只下载用到的字） -->
+<link rel="preconnect" href="https://fastly.jsdelivr.net" crossorigin>
+<link rel="preload" as="style" href="https://fastly.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css"></noscript>
+<style>:root{--tw-font:"LXGW WenKai","Kaiti SC",KaiTi,STKaiti,"楷体","AR PL UKai CN","Songti SC",serif}</style>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
@@ -1386,12 +1406,12 @@ if (document.querySelectorAll('pre.mermaid').length) {
 ==================================================================== -->
 
     </div>
+<!-- 人机验证进场门：配置 + 运行脚本（defer，等 DOM 就绪再动手） -->
+<script>window.__GATE_CONFIG__={"enable":true,"once_per_session":true,"blur":true,"title":"人机验证","message":"为确认您不是机器人，请完成验证","button":"我不是机器人","brand":"Ascend Log","success":"验证通过，欢迎光临","footer":"本会话只需验证一次，刷新 / 翻页不再打扰","verify_lines":["正在检测指尖温度…","正在清点樱花瓣…","正在与星空比对…","正在确认心跳频率…","正在排练欢迎语…","正在给灵梦递茶…"],"verify_min":900,"verify_max":1600,"verify_line_interval":620,"min_show":1200,"hold_time":900,"fade_time":620,"turnstile":{"enable":true,"sitekey":"1x00000000000000000000AA","verify_url":"https://chat.mikuascendlog.com/turnstile-verify","language":"zh-cn","china_fallback":"grace","load_timeout":8000,"verifying_text":"正在复核验证结果…","fail_text":"验证没通过，请再试一次","escape_text":"验证加载不出来？点此直接进入 →","passing_text":"正在放行…"}};</script>
+<script defer src="/js/human-gate.js?v=f4a81396"></script>
 <!-- 和风樱花打字机：配置 + 运行脚本（defer，等 DOM 就绪再动手） -->
 <script>window.__TW_CONFIG__={"enable":true,"timing":{"type_speed":135,"delete_speed":55,"hold_time":2400,"gap_time":460,"start_delay":900,"jitter":45,"pause_on_hover":true,"click_to_skip":true},"subtitle":{"enable":true,"keep_original":true,"lines":["你指间跃动的电光，是我此生不变的信仰","愿此行，终抵群星","星が降る夜、夢を見る","一切过往，皆为序章","与君初相识，犹如故人归","过去从未逝去，它甚至从未过去"]},"welcome":{"enable":true,"scope":"home","once_per_session":true,"position":"center","title":"欢迎来到 Ascend Log","footer":"按 ESC 或点右上角 ×，可以提前关掉","delay":850,"type_speed":82,"hold_time":3000,"fade_time":680,"auto_close":true,"closable":true,"mask":true,"random":true,"lines":["欢迎光临，这里是 君名miku 的小站","网页须慢载，心急则卡404","我来同你看","今夜も星が綺麗ですね","愿你在这儿找到想要的东西","愿此行，终抵群星"]}};</script>
 <script defer src="/js/typewriter.js?v=9a843e82"></script>
-<!-- 人机验证进场门：配置 + 运行脚本（defer，等 DOM 就绪再动手） -->
-<script>window.__GATE_CONFIG__={"enable":true,"once_per_session":true,"blur":true,"title":"人机验证","message":"为确认您不是机器人，请完成验证","button":"我不是机器人","brand":"Ascend Log","success":"验证通过，欢迎光临","footer":"本会话只需验证一次，刷新 / 翻页不再打扰","verify_lines":["正在检测指尖温度…","正在清点樱花瓣…","正在与星空比对…","正在确认心跳频率…","正在排练欢迎语…","正在给灵梦递茶…"],"verify_min":900,"verify_max":1600,"verify_line_interval":620,"hold_time":900,"fade_time":620};</script>
-<script defer src="/js/human-gate.js?v=434729a8"></script>
 
 <style id="music-player-style">
 /* ============================================================
